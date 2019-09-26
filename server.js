@@ -1,5 +1,7 @@
 require("dotenv").config();
+const fs = require("fs");
 
+const https = require('https');
 const express = require("express");
 const cookieParser = require("cookie-parser");
 // const csp = require('helmet-csp')
@@ -32,4 +34,12 @@ app.use("/private", (req, res, next) => {
 app.use("/private", express.static("private"));
 
 
-app.listen(process.env.port, () => console.log("Listening on port 8080"));
+// app.listen(process.env.port, () => console.log("Listening on port "+process.env.port));
+
+https.createServer({
+    key: fs.readFileSync(process.env.key, {encoding: "UTF8"}),
+    cert: fs.readFileSync(process.env.cert, {encoding: "UTF8"})
+  }, app)
+  .listen(process.env.port,() => {
+    console.log(`Listening on port ${process.env.port}`)
+  })
