@@ -1,0 +1,15 @@
+{
+	"name": "Efterskole tracker",
+	"short_name": "Efterskole",
+	"start_url": "/",
+	"display": "standalone",
+	"theme_color": "#6495ED",
+	"icons": [
+		{
+			"src": "/src/images/logo-225x225.png",
+			"type": "image/png",
+			"sizes": "225x225"
+		}
+	],
+	"orientation": "portrait"
+}

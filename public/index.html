@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <title>SE-Appen - Login</title>
+    <script src="/src/js/index.js"></script>
+    <link rel="stylesheet" href="/src/css/index.css">
+    <link rel="manifest" href="/manifest.json">
+    <!-- <script src="/src/js/notifications.js"></script> -->
+</head>
+
+<body>
+    <div class="main">
+        <div class="header">
+            <div class="logo">
+                <img class="logo" src="/src/images/logo-225x225.png" alt="Home logo" width="100px" height="100px">
+            </div>
+            <h1 class="title">Appen</h1>
+        </div>
+        <div class="content">
+            <form class="login-form" onsubmit="login(this); return false" method="post">
+                <label for="username">Brugernavn:</label>
+                <input name="username" type="text">
+                <label for="password">Adgangskode:</label>
+                <input name="password" type="password">
+                <label class="error" id="login-error" style="display: none"></label>
+                <input type="submit" value="Login">
+            </form>
+            <input class="login-form" type="submit" value="Opret bruger" onclick="toRegister()"
+                style="position: absolute; bottom: 0;width: 95%">
+            <form class="register-form" onsubmit="register(this); return false" method="post">
+                <label for="name">Navn:</label>
+                <input name="name" type="text">
+                <label for="room">Rum nummer:</label>
+                <input name="room" type="number">
+                <label for="username">Brugernavn:
+                    <span style="font-size: 40px;">(bruges til at logge ind med)</span>
+                </label>
+                <input name="username" type="text">
+                <label for="email">Email:</label>
+                <input name="email" type="email">
+                <label for="password">Adgangskode:</label>
+                <input name="password" type="password">
+                <label for="password2">Bekræft adgangskode:</label>
+                <input name="password2" type="password">
+                <label class="error" id="register-error" style="display: none"></label>
+                <input type="submit" value="Opret bruger">
+            </form>
+            <input class="register-form" type="submit" value="Login istedet" onclick="toLogin()"
+                style="display: none;position: absolute; bottom: 0;width: 95%">
+        </div>
+    </div>
+</body>
+
+</html>
