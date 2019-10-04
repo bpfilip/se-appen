@@ -41,8 +41,7 @@ async function login(form) {
 	let res = await fetch("/login", {
 		method: "POST",
 		headers: {
-			"Content-Type": "application/json",
-			"Origin": "localhost:8080"
+			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
 			username: form.username.value,

@@ -1,51 +1,95 @@
 <html>
-    <head>
-        <title>SE-Appen - Indstillinger</title>
-        <script src="/private/src/js/index.js"></script>
-        <script src="/private/src/js/menu.js"></script>
-        <link rel="stylesheet" href="/private/src/css/index.css">
-        <link rel="stylesheet" href="/private/src/css/menu.css">
-        <link rel="manifest" href="/manifest.json">
-        <!-- <script src="/src/js/notifications.js"></script> -->
-    </head>
-    <body>
-        <div class="main">
-            <div class="header">
-                <div class="logo">
-                    <img class="logo" src="/src/images/logo-225x225.png" alt="Home logo" width="100px" height="100px"
-                        onclick='document.location.href = "/private/"'>
+
+<head>
+    <title>SE-Appen - Indstillinger</title>
+    <script src="/private/src/js/settings.js"></script>
+    <script src="/private/src/js/menu.js"></script>
+    <link rel="stylesheet" href="/private/src/css/index.css">
+    <link rel="stylesheet" href="/private/src/css/settings.css">
+    <link rel="stylesheet" href="/private/src/css/menu.css">
+    <link rel="manifest" href="/manifest.json">
+    <!-- <script src="/src/js/notifications.js"></script> -->
+</head>
+
+<body onload="initialize()">
+    <div class="main">
+        <div class="header" onclick='document.location.href = "/private/"'>
+            <div class="logo">
+                <img class="logo" src="/src/images/logo-225x225.png" alt="Home logo" width="100px" height="100px">
+            </div>
+            <h1 class="title">Appen</h1>
+        </div>
+        <div class="content">
+            <div id="root" class="setting-list">
+                <div onclick="goto('?setting=profile-details')">
+                    <span>Ændre profil oplysninger</span>
                 </div>
-                <h1 class="title">Appen</h1>
+                <div onclick="goto('?setting=notification-settings')">
+                    <span>Notifikationer</span>
+                </div>
             </div>
-            <div class="content">
-                
+            <div id="profile-details" class="setting-list" style="display: none;">
+                <div onclick="goto('?setting=change-name')" style="display: none;">
+                    <span>Navn</span>
+                </div>
+                <div onclick="goto('?setting=change-username')" style="display: none;">
+                    <span>Brugernavn</span>
+                </div>
+                <div onclick="goto('?setting=change-password')">
+                    <span>Adgangskode</span>
+                </div>
+                <div onclick="goto('?setting=change-mail')" style="display: none;">
+                    <span>Email</span>
+                </div>
             </div>
-            <div class="menu">
-                <div class="menu-content">
-                    <div class="menu-item" id="menu-item-1" onclick="goto('/private/')">
-                        <span>Startside</span>
+            <div id="notification-settings" class="setting-list" style="display: none;">
+                    <div onclick="goto('?setting=notification-settings')">
+                        <span>Tænd sluk notifikationer</span>
                     </div>
-                    <div id="menu-item-2" class="menu-item" onclick="toggleTjek()">
-                        <span>Lære tjek</span>
+                    <div onclick="goto('?setting=notification-settings')">
+                        <span>Vælg hvilke notifikationer du vil få</span>
                     </div>
-                    <div id="menu-item-tjek" style="display: none;">
-                        <div id="menu-item-3" class="menu-sub-item menu-item" onclick="goto('/private/')">
-                            <span>Kort</span>
-                        </div>
-                        <div id="menu-item-4" class="menu-sub-item menu-item" onclick="goto('/private/')">
-                            <span>Liste</span>
-                        </div>
+                </div>
+            <div id="change-password" class="setting-list" style="display: none;">
+                <form class="login-form" onsubmit="changePassword(this); return false" method="post">
+                    <label for="current">Nuværende adgangskode:</label>
+                    <input name="current" type="password">
+                    <label for="password">Adgangskode:</label>
+                    <input name="password" type="password">
+                    <label for="confirm">Bekræft adgangskode:</label>
+                    <input name="confirm" type="password">
+                    <label class="error" id="change-password-error" style="display: none"></label>
+                    <input type="submit" value="Login">
+                </form>
+            </div>
+        </div>
+        <div class="menu">
+            <div class="menu-content">
+                <div class="menu-item" id="menu-item-1" onclick="goto('/private/')">
+                    <span>Startside</span>
+                </div>
+                <div id="menu-item-2" class="menu-item" onclick="toggleTjek()">
+                    <span>Lære tjek</span>
+                </div>
+                <div id="menu-item-tjek" style="display: none;">
+                    <div id="menu-item-3" class="menu-sub-item menu-item" onclick="goto('/private/')">
+                        <span>Kort</span>
                     </div>
-                    <div class="menu-item-bottom menu-item" id="menu-item-settings"
-                        onclick="goto('/private/settings.html')">
-                        <span>Indstillinger</span>
+                    <div id="menu-item-4" class="menu-sub-item menu-item" onclick="goto('/private/')">
+                        <span>Liste</span>
                     </div>
-                    <div style="bottom: 250px;" class="menu-item-bottom menu-item" id="menu-item-admin"
-                        onclick="goto('/private/admin.html')">
-                        <span>Admin</span>
-                    </div>
+                </div>
+                <div class="menu-item-bottom menu-item" id="menu-item-settings"
+                    onclick="goto('/private/settings.html')">
+                    <span>Indstillinger</span>
+                </div>
+                <div style="bottom: 250px;" class="menu-item-bottom menu-item" id="menu-item-admin"
+                    onclick="goto('/private/admin/admin.html')">
+                    <span>Admin</span>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

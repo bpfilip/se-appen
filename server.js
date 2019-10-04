@@ -1,12 +1,8 @@
 require("dotenv").config();
 const fs = require("fs");
 
-const https = require('https');
-const http = require('http');
 const express = require("express");
 const cookieParser = require("cookie-parser");
-// const csp = require('helmet-csp')
-// const cors = require("cors");
 
 const app = express();
 
@@ -14,7 +10,14 @@ app.use(express.json())
 app.use(cookieParser());
 
 // Logger
-// app.use(require("./logger"));
+// if (process.env.logger == "true") {
+//     app.use(require("./logger"));
+// }
+
+// app.use((req, res, next) => {
+//     console.log(req)
+//     return next();
+// })
 
 // Auth
 app.use(require("./routes/auth"));
@@ -29,23 +32,16 @@ app.use("/", express.static("public"));
 
 app.use("/private", (req, res, next) => {
     if (req.token) return next();
-    return res.redirect("/", 302);
+    return res.redirect(302, "/");
+})
+
+app.use("/private/admin", (req, res, next) => {
+    if (req.user.admin !== true) return res.redirect(302, "/private/");
+    return next();
 })
 
 app.use("/private", express.static("private"));
 
-
-// app.listen(process.env.port, () => console.log("Listening on port "+process.env.port));
-
-https.createServer({
-    key: fs.readFileSync(process.env.key, { encoding: "UTF8" }),
-    cert: fs.readFileSync(process.env.cert, { encoding: "UTF8" })
-}, app)
-    .listen(process.env.httpsport, () => {
-        console.log(`Listening on port ${process.env.httpsport}`)
-    })
-
-http.createServer(app)
-    .listen(process.env.httpport, () => {
-        console.log(`Listening on port ${process.env.httpport}`)
-    })
+app.listen(process.env.port, () => {
+    console.log(`Listening on port ${process.env.port}`)
+})

@@ -1,7 +1,7 @@
 {
 	"name": "Efterskole tracker",
 	"short_name": "Efterskole",
-	"start_url": "/",
+	"start_url": "/private/",
 	"display": "standalone",
 	"theme_color": "#6495ED",
 	"icons": [

@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "push": "git push prod master"
+    "push": "git push prod master",
+    "debug": "nodemon --inspect server.js"
   },
   "author": "",
   "license": "ISC",

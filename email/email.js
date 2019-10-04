@@ -17,10 +17,6 @@ async function sendVerification(user) {
 
     fs.readFile("./email/verification.html", { encoding: "UTF8" }, async (err, html) => {
 
-        console.log(err)
-
-        console.log(html)
-
         while (html.includes("${token}")) {
             html = html.replace("${token}", token)
         }
@@ -31,8 +27,6 @@ async function sendVerification(user) {
             subject: 'Email verification',
             html
         })
-
-        console.log('Message sent: %s', email.messageId);
     });
 }
 

@@ -1,25 +1,58 @@
 <html>
 
 <head>
-    <title>SE-Appen - Hjem</title>
+    <title>SE-Appen - Admin</title>
     <script src="/private/src/js/index.js"></script>
+    <script src="/private/admin/admin.js"></script>
     <script src="/private/src/js/menu.js"></script>
     <link rel="stylesheet" href="/private/src/css/index.css">
+    <link rel="stylesheet" href="/private/admin/admin.css">
     <link rel="stylesheet" href="/private/src/css/menu.css">
     <link rel="manifest" href="/manifest.json">
     <!-- <script src="/src/js/notifications.js"></script> -->
 </head>
 
-<body>
+<body onload="initialize()">
     <div class="main">
-        <div class="header" onclick='document.getElementsByClassName("menu")[0].style.display = "block";'>
+        <div class="header" onclick='document.location.href = "/private/"'>
             <div class="logo">
                 <img class="logo" src="/src/images/logo-225x225.png" alt="Home logo" width="100px" height="100px">
             </div>
-            <h1 class="title" onclick='document.getElementsByClassName("menu")[0].style.display = "block";'>Appen</h1>
+            <h1 class="title">Appen</h1>
         </div>
         <div class="content">
-
+            <div id="root" class="admin-list">
+                <div onclick="goto('?admin=confirm-users')">
+                    <span>Bekræft nye brugere</span>
+                </div>
+                <div onclick="goto('?admin=show-users')">
+                    <span>Vis alle brugere</span>
+                </div>
+            </div>
+            <div id="confirm-users" class="admin-list" style="display: none;">
+                <span id="loading-confirm-users" class="loading">Henter...</span>
+                <!-- <div class="user-confirm">
+                    <span class="name">${user.name}</span>
+                    <div class="allow">
+                        <img width="50" height="50" src="/private/src/images/checkmark.png">
+                    </div>
+                    <br>
+                    <span class="mail">${user.email}</span>
+                    <div class="disallow">
+                        <img width="43" height="43" src="/private/src/images/x.png">
+                    </div>
+                    <br>
+                    <span class="room-title">Rum: </span><span class="room">${user.roomNmb}</span>
+                </div> -->
+            </div>
+            <div id="show-users" class="admin-list" style="display: none;">
+                <div class="user-all">
+                    <span>Filli1303</span>
+                </div>
+                <div class="user-all">
+                    <span>Borum</span>
+                </div>
+            </div>
         </div>
         <div class="menu">
             <div class="menu-content">

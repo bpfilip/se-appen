@@ -33,12 +33,14 @@ Router.post("/register", async (req, res, next) => {
     const sameName = await Users.findOne({ name: req.body.name })
     if (sameName) return res.status(400).send("A user with that name alredy exists");
 
+    req.body.username = req.body.username.toLowerCase();
+
     bcrypt.hash(req.body.password, 10, async (err, hash) => {
         if (err) return res.status(500).send(err);
 
-        const token = jwt.sign({ data: { name: req.body.name, username: req.body.username, roomNmb: req.body.roomNmb } }, jwtSecret);
+        const token = jwt.sign({ data: { name: req.body.name, username: req.body.username, roomNmb: req.body.roomNmb, admin: false } }, jwtSecret);
 
-        Users.insert({ username: req.body.username, name: req.body.name, password: hash, roomNmb: req.body.roomNmb, room: room._id, email: req.body.email, verified: false, mailVerified: false });
+        Users.insert({ username: req.body.username, name: req.body.name, password: hash, roomNmb: req.body.roomNmb, room: room._id, email: req.body.email, verified: false, mailVerified: false, admin: false });
 
         let user = await Users.findOne({ name: req.body.name })
 
@@ -57,22 +59,23 @@ Router.post("/login", async (req, res, next) => {
     if (!("username" in req.body)) return res.status(400).send("A username was not sent");
     if (!("password" in req.body)) return res.status(400).send("A password was not sent");
 
+    req.body.username = req.body.username.toLowerCase();
+
     const users = await Users.find({ username: req.body.username });
 
-    if (users.length < 1) return res.status(401).send("The username or password was incorret")
+    if (users.length < 1) return res.status(401).send("The username or password was incorret");
 
-    const user = users[0]
+    const user = users[0];
 
     bcrypt.compare(req.body.password, user.password, function (err, corret) {
         if (err) return res.status(500).send(err);
         if (corret) {
-            const token = jwt.sign({ data: { name: user.name, username: req.body.username, roomNmb: req.body.roomNmb } }, jwtSecret)
+            const token = jwt.sign({ data: { name: user.name, username: req.body.username, roomNmb: req.body.roomNmb, admin: user.admin } }, jwtSecret)
             return res.send({ status: "succes", token });
         }
 
         return res.status(401).send("The username or password was incorret")
     });
-
 })
 
 Router.post("/token", async (req, res, next) => {
@@ -105,6 +108,19 @@ Router.get("/verify", async (req, res, next) => {
 
 Router.use((req, res, next) => {
 
+    if ("authorization" in req.headers) {
+        const token = req.headers.authorization.split("Bearer ")[1]
+        return jwt.verify(token, jwtSecret, (err, decoded) => {
+            if (err) return next();
+
+            // Valid token
+            req.token = token;
+            req.user = decoded.data;
+
+            return next();
+        });
+    }
+
     if (req.cookies.token) {
         const token = req.cookies.token;
         return jwt.verify(token, jwtSecret, (err, decoded) => {
@@ -120,18 +136,7 @@ Router.use((req, res, next) => {
         });
     }
 
-    if (!("authorization" in req.headers)) return next();
-
-    const token = req.headers.authorization.split("Bearer ")[1]
-    jwt.verify(token, jwtSecret, (err, decoded) => {
-        if (err) return next();
-
-        // Valid token
-        req.token = token;
-        req.user = decoded.data;
-
-        return next();
-    });
+    return next();
 })
 
 module.exports = Router;
