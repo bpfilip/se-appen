@@ -1,13 +1,32 @@
 var CACHE_NAME = 'static';
 var urlsToCache = [
 	'/',
+	'/private/',
+	'/private/admin/admin.css',
+	'/private/admin/admin.html',
+	'/private/admin/admin.js',
+	'/private/index.html',
+	'/private/settings.html',
+	'/private/src/css/index.css',
+	'/private/src/css/menu.css',
+	'/private/src/css/settings.css',
+	'/private/src/images/checkmark.png',
+	'/private/src/images/logo-225x225.png',
+	'/private/src/images/skole.png',
+	'/private/src/images/x.png',
+	'/private/src/js/index.js',
+	'/private/src/js/menu.js',
+	'/private/src/js/settings.js',
+	'/favicon.ico',
 	'/index.html',
-	'/src/js/index.js',
-	'/src/stylesheets/index.css',
-	'/src/images/logo-225x225.png',
 	'/manifest.json',
+	'/src/css/index.css',
+	'/src/css/menu.css',
+	'/src/images/logo-225x225.png',
+	'/src/js/index.js',
+	'/src/js/notifications.js',
 	'/sw.js'
-];
+  ];
 
 self.addEventListener('install', function (event) {
 	// Perform install steps
@@ -42,6 +61,7 @@ self.addEventListener('push', ev => {
 		icon: '/src/images/logo-225x225.png',
 		data
 	});
+	console.log(data)
 });
 
 self.addEventListener('notificationclick', function (event) {
@@ -54,7 +74,7 @@ self.addEventListener('notificationclick', function (event) {
 	}).then(function (clientList) {
 		for (var i = 0; i < clientList.length; i++) {
 			var client = clientList[i];
-			if (client.url == '/' && 'focus' in client) {
+			if (client.url == '/private/' && 'focus' in client) {
 				if (event.notification.data.site) {
 					client.url = event.notification.data.site;
 				}

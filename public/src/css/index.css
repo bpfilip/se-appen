@@ -76,3 +76,19 @@ label {
 .register-form {
     display: none;
 }
+
+#new-user {
+    background: red;
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 52px;
+}
+
+#new-user>p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#new-user>span {
+    font-size: 44px;
+}

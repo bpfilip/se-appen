@@ -19,8 +19,6 @@ async function getUnverified() {
 
 	const users = await res.json()
 
-	console.log(users)
-
 	insertUnverified(users);
 }
 
@@ -41,12 +39,12 @@ function generateUser(user) {
 	const content = `
 	<div class="user-confirm">
 		<span class="name">${user.name}</span>
-		<div class="allow">
+		<div class="allow" onclick="verify('${user.username}')">
 			<img width="50" height="50" src="/private/src/images/checkmark.png">
 		</div>
 		<br>
 		<span class="mail">${user.email}</span>
-		<div class="disallow">
+		<div class="disallow" onclick="unverify('${user.username}')">
 			<img width="43" height="43" src="/private/src/images/x.png">
 		</div>
 		<br>
@@ -61,6 +59,26 @@ function generateUser(user) {
 
 async function verify(username) {
 	const response = await fetch("/admin/verify", {
-		
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			username
+		})
 	})
+	getUnverified();
+}
+
+async function unverify(username) {
+	const response = await fetch("/admin/unverify", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			username
+		})
+	})
+	getUnverified();
 }

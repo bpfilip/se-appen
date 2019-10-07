@@ -1,6 +1,9 @@
 require("dotenv").config();
 const fs = require("fs");
 
+const monk = require("monk")("localhost/efterskole", { useUnifiedTopology: true });
+const Users = monk.get("users");
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
 
@@ -26,6 +29,7 @@ app.use(require("./routes/auth"));
 app.use("/users", require("./routes/users"));
 app.use("/state", require("./routes/state"));
 app.use("/admin", require("./routes/admin"));
+app.use("/subscribe", require("./routes/subscribe"));
 
 // static content
 app.use("/", express.static("public"));
@@ -35,8 +39,9 @@ app.use("/private", (req, res, next) => {
     return res.redirect(302, "/");
 })
 
-app.use("/private/admin", (req, res, next) => {
-    if (req.user.admin !== true) return res.redirect(302, "/private/");
+app.use("/private/admin", async (req, res, next) => {
+    let user = await Users.findOne({ username: req.user.username });
+    if (!user.admin) return res.redirect(302, "/private/");
     return next();
 })
 

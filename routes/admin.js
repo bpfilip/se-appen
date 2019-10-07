@@ -35,6 +35,8 @@ Router.post("/verify", async (req, res) => {
     if (user.verified) return res.status(400).send("That user is already verified");
 
     Users.update({ username: user.username }, { $set: { verified: true } });
+
+    return res.send({ status: "succes" })
 })
 
 Router.post("/unverify", async (req, res) => {
@@ -49,7 +51,21 @@ Router.post("/unverify", async (req, res) => {
 
     if (!user) return res.status(400).send("That user doesn't exist");
 
+    const room = await Rooms.findOne({ number: user.roomNmb });
+
+    let users = room.users;
+    users = users.filter(u => {
+        console.log("Room user:", u.toString()), "Typeof:", u.toString()
+        console.log("user:", user._id.toString(), "Typeof:", user._id.toString())
+        console.log("Verified:", u.toString() != user._id.toString())
+        return u.toString() != user._id.toString();
+    })
+    console.log(users)
+    Rooms.update({ _id: room._id }, { $set: { users } })
+
     Users.remove({ username: user.username });
+
+    return res.send({ status: "succes" })
 })
 
 Router.get("/users/unverified", async (req, res) => {

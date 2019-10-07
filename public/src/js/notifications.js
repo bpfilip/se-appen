@@ -1,4 +1,4 @@
-const publicVapidKey = 'BACTSjh36oaVaueVqF2J5oprJs2EkzeZkjsYz45lJ4mJzma5OLJ2bgFRwUdjyzB5xJo9ORqCOGAErxiZ--Tiw78';
+const publicVapidKey = 'BNZ_Ha7eXO6rl_UYayZRT6-Uc6G1CdqmK-_vtp6soxZKQMLTmMgJV7PeFRZMGf6EsFYyy0GrUqvBzIA7C8Y2yeE';
 function urlB64ToUint8Array(base64String) {
 	const padding = '='.repeat((4 - base64String.length % 4) % 4);
 	const base64 = (base64String + padding)
@@ -21,7 +21,7 @@ if ('serviceWorker' in navigator) {
 async function run() {
 	const registration = await navigator.serviceWorker.
 		register('/sw.js', { scope: '/' });
-		
+
 	const subscription = await registration.pushManager.
 		subscribe({
 			userVisibleOnly: true,
@@ -29,8 +29,10 @@ async function run() {
 			// https://www.npmjs.com/package/web-push#using-vapid-key-for-applicationserverkey
 			applicationServerKey: urlB64ToUint8Array(publicVapidKey)
 		});
-		
-	await fetch('/subscribe', {
+
+		// subscription.unsubscribe();
+
+	let res = await fetch('/subscribe', {
 		method: 'POST',
 		body: JSON.stringify(subscription),
 		headers: {

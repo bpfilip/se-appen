@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "push": "git push prod master",
-    "debug": "nodemon --inspect server.js"
+    "debug": "nodemon --inspect server.js",
+    "cachelist": "node cachelist.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,6 @@
     "monk": "^7.0.0",
     "nodemailer": "^6.3.0",
     "socket.io": "^2.2.0",
-    "web-push": "^3.3.5"
+    "web-push": "^3.4.0"
   }
 }

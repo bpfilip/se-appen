@@ -3,6 +3,14 @@ if (window.localStorage.getItem("token")) {
 	document.location.href = "/private/"
 }
 
+function initialize() {
+	const newUser = new URL(window.location.href).searchParams.get("newuser");
+	
+	if (newUser == "true") {
+		document.getElementById("new-user").style.display = "block"
+	}
+}
+
 function toRegister() {
 	let login = document.getElementsByClassName("login-form");
 	let register = document.getElementsByClassName("register-form");
@@ -53,6 +61,16 @@ async function login(form) {
 		errorBox.innerText = "Adgangskoden eller brugernavnet var forkert";
 		errorBox.style.display = "block";
 		return;
+	}
+	if (res.status == 403) {
+		let err = await res.text();
+		console.log(err)
+		if (err == "The user has not been verified yet") {
+			let errorBox = document.getElementById("login-error");
+			errorBox.innerText = "Du er ikke blevet bekræftet endnu";
+			errorBox.style.display = "block";
+			return;
+		}
 	}
 	let data = await res.json();
 	localStorage.setItem("token", data.token);
@@ -124,8 +142,5 @@ async function register(form) {
 		errorBox.style.display = "block";
 		return;
 	}
-	let data = await res.json();
-	localStorage.setItem("token", data.token);
-	document.cookie = "token=" + data.token;
-	document.location.href = "/private/";
+	document.location.href = "/?newuser=true";
 }

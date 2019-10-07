@@ -1,9 +1,9 @@
 {
-	"name": "Efterskole tracker",
-	"short_name": "Efterskole",
+	"name": "SE-Appen",
+	"short_name": "SE",
 	"start_url": "/private/",
 	"display": "standalone",
-	"theme_color": "#6495ED",
+	"theme_color": "#18837C",
 	"icons": [
 		{
 			"src": "/src/images/logo-225x225.png",

@@ -30,18 +30,18 @@ function handleTouchMove(evt) {
 
         if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
             if (xDiff > 0) {
-                console.log("left")
+                // console.log("left")
                 document.getElementsByClassName("menu")[0].style.display = "none";
                 document.getElementById("menu-item-tjek").style.display = "none";
             } else {
-                console.log("right")
+                // console.log("right")
                 document.getElementsByClassName("menu")[0].style.display = "block";
             }
         } else {
             if (yDiff > 0) {
-                console.log("up")
+                // console.log("up")
             } else {
-                console.log("down")
+                // console.log("down")
             }
         }
         /* reset values */

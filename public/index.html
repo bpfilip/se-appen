@@ -8,7 +8,7 @@
     <!-- <script src="/src/js/notifications.js"></script> -->
 </head>
 
-<body>
+<body onload="initialize()">
     <div class="main">
         <div class="header">
             <div class="logo">
@@ -46,7 +46,11 @@
                 <input type="submit" value="Opret bruger">
             </form>
             <input class="register-form" type="submit" value="Login istedet" onclick="toLogin()"
-                style="display: none;position: absolute; bottom: 0;width: 95%">
+                style="display: none;position: absolute; bottom: 0;width: 95%"></input>
+            <div id="new-user" style="display: none;">
+                <p>Afventer bekræftelse af din bruger</p>
+                <span>Du bliver bekræftet snarest muligt</span>
+            </div>
         </div>
     </div>
 </body>
