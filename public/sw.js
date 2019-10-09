@@ -40,6 +40,7 @@ self.addEventListener('install', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
+	return fetch(event.request);
 	event.respondWith(
 		caches.match(event.request)
 			.then(function (response) {
