@@ -9,8 +9,7 @@ webpush.setVapidDetails(
     fs.readFileSync("./notifications/private.key", { encoding: "UTF8" })
 );
 
-const monk = require("monk")("localhost/efterskole", { useUnifiedTopology: true });
-const Devices = monk.get("devices");
+const { Devices } = require("./db");
 
 const Notifications = {};
 

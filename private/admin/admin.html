@@ -28,22 +28,12 @@
                 <div onclick="goto('?admin=show-users')">
                     <span>Vis alle brugere</span>
                 </div>
+                <div onclick="goto('?admin=rooms')">
+                    <span>Administrer rum</span>
+                </div>
             </div>
             <div id="confirm-users" class="admin-list" style="display: none;">
                 <span id="loading-confirm-users" class="loading">Henter...</span>
-                <!-- <div class="user-confirm">
-                    <span class="name">${user.name}</span>
-                    <div class="allow">
-                        <img width="50" height="50" src="/private/src/images/checkmark.png">
-                    </div>
-                    <br>
-                    <span class="mail">${user.email}</span>
-                    <div class="disallow">
-                        <img width="43" height="43" src="/private/src/images/x.png">
-                    </div>
-                    <br>
-                    <span class="room-title">Rum: </span><span class="room">${user.roomNmb}</span>
-                </div> -->
             </div>
             <div id="show-users" class="admin-list" style="display: none;">
                 <div class="user-all">
@@ -52,6 +42,11 @@
                 <div class="user-all">
                     <span>Borum</span>
                 </div>
+            </div>
+            <div id="rooms" class="admin-list" style="display: none;">
+                <span id="loading-rooms" class="loading">Henter...</span>
+                <input type="submit" value="Tilføj rum" onclick="newRoom()"
+                style="position: absolute; bottom: 0;width: 95%">
             </div>
         </div>
         <div class="menu">

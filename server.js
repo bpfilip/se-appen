@@ -1,8 +1,7 @@
 require("dotenv").config();
 const fs = require("fs");
 
-const monk = require("monk")("localhost/efterskole", { useUnifiedTopology: true });
-const Users = monk.get("users");
+const { Users } = require("./db");
 
 const express = require("express");
 const cookieParser = require("cookie-parser");
@@ -27,9 +26,11 @@ app.use(require("./routes/auth"));
 
 // APIs
 app.use("/users", require("./routes/users"));
-app.use("/state", require("./routes/state"));
+app.use("/rooms", require("./routes/rooms"));
 app.use("/admin", require("./routes/admin"));
 app.use("/subscribe", require("./routes/subscribe"));
+app.use("/checked", require("./routes/checked"));
+app.use("/events", require("./routes/events"));
 
 // static content
 app.use("/", express.static("public"));

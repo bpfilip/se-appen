@@ -22,6 +22,12 @@ async function run() {
 	const registration = await navigator.serviceWorker.
 		register('/sw.js', { scope: '/' });
 
+		// registration.showNotification('New message from Alice', {  
+		// 	actions: [  
+		// 	 {action: 'like', title: 'Like'},  
+		// 	 {action: 'reply', title: 'Reply'}]  
+		//   });
+
 	const subscription = await registration.pushManager.
 		subscribe({
 			userVisibleOnly: true,

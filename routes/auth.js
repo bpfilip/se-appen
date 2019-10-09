@@ -6,9 +6,8 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = fs.readFileSync("./jwt.key", { encoding: "UTF8" });
 
 const bcrypt = require("bcrypt");
-const monk = require("monk")("localhost/efterskole", { useUnifiedTopology: true });
-const Users = monk.get("users");
-const Rooms = monk.get("rooms");
+
+const { Users, Rooms, Unverified, Ips } = require("../db");
 
 const Email = require("../email/email");
 
@@ -37,18 +36,17 @@ Router.post("/register", async (req, res, next) => {
 
     req.body.username = req.body.username.toLowerCase();
 
+    const sameUsername = await Users.findOne({ username: req.body.username })
+    if (sameUsername) return res.status(400).send("A user with that username alredy exists");
+
     bcrypt.hash(req.body.password, 10, async (err, hash) => {
         if (err) return res.status(500).send(err);
 
-        Users.insert({ username: req.body.username, name: req.body.name, password: hash, roomNmb: req.body.roomNmb, room: room._id, email: req.body.email, verified: false, mailVerified: false, admin: false });
+        Unverified.insert({ username: req.body.username, name: req.body.name, password: hash, roomNmb: req.body.roomNmb, room: room._id, email: req.body.email, verified: false, mailVerified: false, admin: false });
 
-        let user = await Users.findOne({ name: req.body.name })
+        let user = await Unverified.findOne({ username: req.body.username })
 
-        let users = room.users;
-        users.push(user._id)
-        Rooms.update({ _id: room._id }, { $set: { users } })
-
-        Email.sendVerification(user).catch(console.error);
+        // Email.sendVerification(user).catch(console.error);
 
         return res.send({ status: "succes" });
     });
@@ -73,7 +71,7 @@ Router.post("/login", async (req, res, next) => {
 
             if (!user.verified) return res.status(403).send("The user has not been verified yet");
 
-            const token = jwt.sign({ data: { name: user.name, username: req.body.username, roomNmb: req.body.roomNmb} }, jwtSecret)
+            const token = jwt.sign({ data: { name: user.name, username: req.body.username, roomNmb: req.body.roomNmb } }, jwtSecret)
             return res.send({ status: "succes", token });
         }
 

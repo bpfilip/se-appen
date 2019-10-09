@@ -2,7 +2,9 @@
 
 <head>
     <title>SE-Appen - Hjem</title>
+    <script src="/private/src/js/p5.min.js"></script>
     <script src="/private/src/js/index.js"></script>
+    <script src="/private/src/js/dots.js"></script>
     <script src="/private/src/js/menu.js"></script>
     <link rel="stylesheet" href="/private/src/css/index.css">
     <link rel="stylesheet" href="/private/src/css/menu.css">
@@ -18,8 +20,11 @@
             </div>
             <h1 class="title" onclick='document.getElementsByClassName("menu")[0].style.display = "block";'>Appen</h1>
         </div>
-        <div class="content">   
-            <img src="/private/src/images/skole.png" width="100%">
+        <div class="content">
+            <div id="canvas"></div>
+            <div id="events"></div>
+            <input type="submit" id="checked" value="Jeg er blevet tjekket" onclick="check()"
+            style="position: absolute; bottom: 0;width: 95%">
         </div>
         <div class="menu">
             <div class="menu-content">

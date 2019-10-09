@@ -1,7 +1,7 @@
 function initialize() {
 	const settingsLocation = new URL(window.location.href).searchParams.get("admin");
 
-	const locations = ["confirm-users", "show-users"]
+	const locations = ["confirm-users", "show-users", "rooms"]
 
 	if (!locations.includes(settingsLocation)) return;
 
@@ -12,12 +12,32 @@ function initialize() {
 	if (settingsLocation == "confirm-users") {
 		getUnverified();
 	}
+	if (settingsLocation == "show-users") {
+		getUsers();
+	}
+	if (settingsLocation == "rooms") {
+		rooms();
+	}
 }
+
+// ####################################################
+// #					confirm-users				  #
+// ####################################################
 
 async function getUnverified() {
 	const res = await fetch("/admin/users/unverified");
 
 	const users = await res.json()
+
+	if (Object.keys(users).length < 1) {
+		const parent = document.getElementById("confirm-users");
+		parent.innerHTML = `
+			<div class="user-confirm">
+				<span class="name">Alle brugere er bekræftet</span>
+			</div>
+		`;
+		return;
+	}
 
 	insertUnverified(users);
 }
@@ -29,12 +49,12 @@ function insertUnverified(users) {
 	parent.innerHTML = "";
 
 	for (let i in users) {
-		parent.appendChild(generateUser(users[i]));
+		parent.appendChild(generateUnverifiedUser(users[i]));
 	}
 
 }
 
-function generateUser(user) {
+function generateUnverifiedUser(user) {
 	const div = document.createElement('div');
 	const content = `
 	<div class="user-confirm">
@@ -81,4 +101,107 @@ async function unverify(username) {
 		})
 	})
 	getUnverified();
+}
+
+// ####################################################
+// #					show-users					  #
+// ####################################################
+
+async function getUsers() {
+	const res = await fetch("/users");
+
+	const users = await res.json()
+
+	insertUsers(users);
+}
+
+function insertUsers(users) {
+
+	const parent = document.getElementById("show-users");
+
+	parent.innerHTML = "";
+
+	for (let i in users) {
+		parent.appendChild(generateUser(users[i]));
+	}
+
+}
+
+function generateUser(user) {
+	const div = document.createElement('div');
+	const content = `
+	<div class="user">
+		<span class="name">${user.name}</span>
+		<br>
+		<span class="mail">${user.email}</span>
+		<br>
+		<span class="room-title">Rum: </span><span class="room">${user.roomNmb}</span>
+	</div>
+	`;
+
+	div.innerHTML = content;
+
+	return div
+}
+
+// ####################################################
+// #					rooms						  #
+// ####################################################
+
+async function rooms() {
+	const res = await fetch("/rooms");
+
+	const rooms = await res.json()
+
+	insertRooms(rooms);
+}
+
+function insertRooms(rooms) {
+
+	const parent = document.getElementById("rooms");
+
+	document.getElementById("loading-rooms").style.display = "none";
+
+	for (let i in rooms) {
+		parent.appendChild(generateRoom(rooms[i]));
+	}
+
+}
+
+function generateRoom(room) {
+	let members = "";
+
+	room.users.forEach(user => {
+		members += `
+			<div class="member">
+				<span class="name">${user.name}</span>
+			</div>
+		`
+	});
+
+	const div = document.createElement('div');
+	const content = `
+	<div class="room">
+		<span class="number">Rum: ${room.number}</span>
+		<div class="member-list">
+			${members}
+		</div>
+	</div>
+	`;
+
+	div.innerHTML = content;
+
+	return div
+}
+
+function newRoom() {
+	let res = fetch("/admin/rooms/create", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({number: parseInt(prompt("Hvilket nummer skal rummet have?"))})
+	})
+
+	location.reload();
 }

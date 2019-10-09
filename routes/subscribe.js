@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const monk = require("monk")("localhost/efterskole", { useUnifiedTopology: true });
-const Devices = monk.get("devices");
+const { Devices } = require("../db");
 
 const Notifications = require("../notifications");
 
