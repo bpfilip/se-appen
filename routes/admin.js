@@ -101,4 +101,21 @@ Router.post("/rooms/create", async (req, res) => {
     Rooms.insert({ number: parseInt(req.body.number), users: [], state: 0, checked: false })
 })
 
+Router.post("/clear", async (req, res) => {
+    if (!req.token) return res.sendStatus(403);
+    let adminUser = await Users.findOne({ username: req.user.username })
+
+    if (!adminUser.admin) return res.status(403).send("Insufficient permission");
+
+    let rooms = await Rooms.find({});
+
+    console.log(rooms)
+
+    rooms.forEach(room => {
+        Rooms.update({ _id: room._id }, { $set: { checked: false } });
+    });
+
+    return res.send({ status: "succes" });
+})
+
 module.exports = Router;

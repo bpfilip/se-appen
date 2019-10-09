@@ -1,7 +1,7 @@
 function initialize() {
 	const settingsLocation = new URL(window.location.href).searchParams.get("admin");
 
-	const locations = ["confirm-users", "show-users", "rooms"]
+	const locations = ["confirm-users", "show-users", "rooms", "clear"]
 
 	if (!locations.includes(settingsLocation)) return;
 
@@ -18,6 +18,17 @@ function initialize() {
 	if (settingsLocation == "rooms") {
 		rooms();
 	}
+	if (settingsLocation == "clear") {
+		clear();
+	}
+}
+
+async function clear() {
+	let res = await fetch("/admin/clear", {
+		method: "POST"
+	});
+
+	console.log(res)
 }
 
 // ####################################################
