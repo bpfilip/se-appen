@@ -10,7 +10,13 @@ Router.post("/", async (req, res) => {
 
     let room = await Rooms.findOne({ number: user.roomNmb })
 
-    if (room.checked) return res.send({status: "Already checked"})
+    if (room.checked) {
+
+        Events.insert({ action: "checked", again: true, room: user.room, user: user._id, createdAt: new Date().getTime() });
+
+        res.send({ status: "Already checked" })
+        return;
+    }
 
     Events.insert({ action: "checked", room: user.room, user: user._id, createdAt: new Date().getTime() });
 

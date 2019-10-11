@@ -1,7 +1,7 @@
 const express = require("express");
 const Router = express.Router();
 
-const { Users, Rooms, Unverified } = require("../db");
+const { Users, Rooms, Unverified, Events } = require("../db");
 
 Router.post("/create/rooms", async (req, res) => {
     if (!req.token) return res.sendStatus(403);
@@ -37,8 +37,6 @@ Router.post("/verify", async (req, res) => {
     Users.insert({ ...user, verified: true });
 
     let room = await Rooms.findOne({ number: user.roomNmb })
-
-    console.log(room)
 
     let users = room.users;
     users.push(user._id)
@@ -85,8 +83,6 @@ Router.get("/rooms", async (req, res) => {
 
     const rooms = await Rooms.find({});
 
-    console.log(rooms)
-
     res.send(rooms)
 })
 
@@ -97,6 +93,11 @@ Router.post("/rooms/create", async (req, res) => {
     if (!adminUser.admin) return res.status(403).send("Insufficient permission");
 
     if (!("number" in req.body)) return res.status(400).send("A number was not sent");
+
+    req.body.number = parseInt(req.body.number);
+
+    let sameRoom = await Rooms.findOne({ number: req.body.number })
+    if (sameRoom) return res.status(400).send("A room with that number already exists");
 
     Rooms.insert({ number: parseInt(req.body.number), users: [], state: 0, checked: false })
 })
@@ -109,11 +110,13 @@ Router.post("/clear", async (req, res) => {
 
     let rooms = await Rooms.find({});
 
-    console.log(rooms)
-
     rooms.forEach(room => {
         Rooms.update({ _id: room._id }, { $set: { checked: false } });
     });
+
+    let user = await Users.findOne({ username: req.user.username })
+
+    Events.insert({ action: "clear", user: user._id, createdAt: new Date().getTime() })
 
     return res.send({ status: "succes" });
 })
