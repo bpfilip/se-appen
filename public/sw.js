@@ -39,21 +39,21 @@ self.addEventListener('install', function (event) {
 	);
 });
 
-self.addEventListener('fetch', function (event) {
-	return fetch(event.request);
-	event.respondWith(
-		caches.match(event.request)
-			.then(function (response) {
+// self.addEventListener('fetch', function (event) {
+// 	return fetch(event.request);
+// 	event.respondWith(
+// 		caches.match(event.request)
+// 			.then(function (response) {
 				
-				// Cache hit - return response
-				if (response) {
-					return response;
-				}
-				return fetch(event.request);
-			}
-			)
-	);
-});
+// 				// Cache hit - return response
+// 				if (response) {
+// 					return response;
+// 				}
+// 				return fetch(event.request);
+// 			}
+// 			)
+// 	);
+// });
 
 self.addEventListener('push', ev => {
 	const data = ev.data.json();
