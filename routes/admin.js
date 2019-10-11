@@ -3,12 +3,18 @@ const Router = express.Router();
 
 const { Users, Rooms, Unverified, Events } = require("../db");
 
-Router.post("/create/rooms", async (req, res) => {
+// Auth
+
+Router.use(async (req, res, next) => {
     if (!req.token) return res.sendStatus(403);
     let adminUser = await Users.findOne({ username: req.user.username })
 
     if (!adminUser.admin) return res.status(403).send("Insufficient permission");
 
+    return next();
+})
+
+Router.post("/create/rooms", async (req, res) => {
     let newRooms = req.body;
 
     newRooms = newRooms.map(room => {
@@ -20,11 +26,6 @@ Router.post("/create/rooms", async (req, res) => {
 });
 
 Router.post("/verify", async (req, res) => {
-    if (!req.token) return res.sendStatus(403);
-    let adminUser = await Users.findOne({ username: req.user.username })
-
-    if (!adminUser.admin) return res.status(403).send("Insufficient permission");
-
     if (!("username" in req.body)) return res.status(400).send("A username was not sent");
 
     let verifiedUser = await Users.findOne({ username: req.body.username });
@@ -46,11 +47,6 @@ Router.post("/verify", async (req, res) => {
 })
 
 Router.post("/unverify", async (req, res) => {
-    if (!req.token) return res.sendStatus(403);
-    let adminUser = await Users.findOne({ username: req.user.username })
-
-    if (!adminUser.admin) return res.status(403).send("Insufficient permission");
-
     if (!("username" in req.body)) return res.status(400).send("A username was not sent");
 
     let user = await Users.findOne({ username: req.body.username });
@@ -65,33 +61,18 @@ Router.post("/unverify", async (req, res) => {
 })
 
 Router.get("/users/unverified", async (req, res) => {
-    if (!req.token) return res.sendStatus(403);
-    let adminUser = await Users.findOne({ username: req.user.username })
-
-    if (!adminUser.admin) return res.status(403).send("Insufficient permission");
-
     const users = await Unverified.find({});
 
     res.send({ ...users, password: undefined })
 })
 
 Router.get("/rooms", async (req, res) => {
-    if (!req.token) return res.sendStatus(403);
-    let adminUser = await Users.findOne({ username: req.user.username })
-
-    if (!adminUser.admin) return res.status(403).send("Insufficient permission");
-
     const rooms = await Rooms.find({});
 
     res.send(rooms)
 })
 
 Router.post("/rooms/create", async (req, res) => {
-    if (!req.token) return res.sendStatus(403);
-    let adminUser = await Users.findOne({ username: req.user.username })
-
-    if (!adminUser.admin) return res.status(403).send("Insufficient permission");
-
     if (!("number" in req.body)) return res.status(400).send("A number was not sent");
 
     req.body.number = parseInt(req.body.number);
@@ -103,11 +84,6 @@ Router.post("/rooms/create", async (req, res) => {
 })
 
 Router.post("/clear", async (req, res) => {
-    if (!req.token) return res.sendStatus(403);
-    let adminUser = await Users.findOne({ username: req.user.username })
-
-    if (!adminUser.admin) return res.status(403).send("Insufficient permission");
-
     let rooms = await Rooms.find({});
 
     rooms.forEach(room => {

@@ -6,6 +6,13 @@ function preload() {
 	img = loadImage('/private/src/images/skole.png');
 }
 
+const socket = io();
+
+socket.on("checked", msg => {
+	getRooms();
+	getEvents()
+})
+
 function setup() {
 	let canvas = createCanvas(726, 480)
 	canvas.parent("canvas");
@@ -75,7 +82,7 @@ function generateEvents(events) {
 		content += `
 			<div class="event">
 				<span class="number">Værelse: ${event.room}</span>
-				<span class="time">${createdAt.getHours()< 10 ? "0" + createdAt.getHours() : createdAt.getHours()}:${createdAt.getMinutes() < 10 ? "0" + createdAt.getMinutes() : createdAt.getMinutes()}</span>
+				<span class="time">${createdAt.getHours() < 10 ? "0" + createdAt.getHours() : createdAt.getHours()}:${createdAt.getMinutes() < 10 ? "0" + createdAt.getMinutes() : createdAt.getMinutes()}</span>
 				<br>
 				<span class="name">${event.user}</span>
 			</div>
@@ -84,5 +91,5 @@ function generateEvents(events) {
 
 	let eventsDiv = document.getElementById("events");
 	eventsDiv.innerHTML = content
-	eventsDiv.style.maxHeight = (windowHeight-271-document.getElementById("canvas").clientHeight) + "px";
+	eventsDiv.style.maxHeight = (windowHeight - 271 - document.getElementById("canvas").clientHeight) + "px";
 }

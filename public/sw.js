@@ -57,12 +57,16 @@ self.addEventListener('fetch', function (event) {
 
 self.addEventListener('push', ev => {
 	const data = ev.data.json();
-	self.registration.showNotification(data.title, {
-		body: data.body,
-		icon: '/src/images/logo-225x225.png',
-		data
-	});
 	console.log(data)
+
+	if (data.action == "Notification") {
+		self.registration.showNotification(data.title, {
+			body: data.body,
+			icon: '/src/images/logo-225x225.png',
+			data
+		});
+		return;
+	}
 });
 
 self.addEventListener('notificationclick', function (event) {

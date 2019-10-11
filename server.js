@@ -8,6 +8,8 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
+const server = require('http').createServer(app);
+
 app.use(express.json())
 app.use(cookieParser());
 
@@ -48,6 +50,11 @@ app.use("/private/admin", async (req, res, next) => {
 
 app.use("/private", express.static("private"));
 
-app.listen(process.env.port, () => {
+server.listen(process.env.port, () => {
     console.log(`Listening on port ${process.env.port}`)
 })
+
+let io = require('socket.io');
+io = io.listen(server)
+const redis = require('socket.io-redis');
+io.adapter(redis({ host: 'localhost', port: 6379 }));
