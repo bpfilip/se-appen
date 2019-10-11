@@ -13,6 +13,7 @@
     grid-area: content;
     font-size: 30px;
     padding: 20px;
+    max-height: calc(100%-150px);
 }
 
 .title {
@@ -64,4 +65,37 @@ input {
     border-radius: 20px;
     background: #dddddd;
     margin: 20px;
+}
+
+#events {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-top: 1px;
+    border-top: 1px;
+    border-right: 0px;
+    border-left: 0px;
+    border-bottom: 0px;
+    border-color: black;
+    border-style: solid;
+    overflow-y: scroll;
+}
+
+.event {
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    border-bottom: 1px;
+    border-color: black;
+    border-style: solid;
+    padding: 30px;
+    font-size: 50px;
+    padding-left: 25px;
+}
+
+.name {
+    font-size: 40px;
+}
+
+.time {
+    font-size: 40px;
+    float: right;
 }

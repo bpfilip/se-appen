@@ -64,7 +64,6 @@ async function login(form) {
 	}
 	if (res.status == 403) {
 		let err = await res.text();
-		console.log(err)
 		if (err == "The user has not been verified yet") {
 			let errorBox = document.getElementById("login-error");
 			errorBox.innerText = "Du er ikke blevet bekræftet endnu";

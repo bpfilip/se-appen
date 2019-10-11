@@ -14,6 +14,7 @@ function setup() {
 	image(img, 0, 0, 726, 480);
 
 	getRooms();
+	getEvents();
 }
 
 function draw() {
@@ -40,7 +41,8 @@ async function check() {
 		body: JSON.stringify({})
 	})
 
-	getRooms()
+	getRooms();
+	getEvents();
 }
 
 async function getRooms() {
@@ -57,9 +59,30 @@ async function getEvents() {
 	let res = await fetch("/events");
 	let events = await res.json();
 
+	if (events.length < 1) return;
+
+	generateEvents(events)
+
 	console.log(events)
 }
 
-function generateEvents() {
+function generateEvents(events) {
+	const parent = document.createElement("div");
+	let content = "";
 
+	events.forEach(event => {
+		let createdAt = new Date(event.createdAt);
+		content += `
+			<div class="event">
+				<span class="number">Værelse: ${event.room}</span>
+				<span class="time">${createdAt.getHours()< 10 ? "0" + createdAt.getHours() : createdAt.getHours()}:${createdAt.getMinutes() < 10 ? "0" + createdAt.getMinutes() : createdAt.getMinutes()}</span>
+				<br>
+				<span class="name">${event.user}</span>
+			</div>
+		`;
+	})
+
+	let eventsDiv = document.getElementById("events");
+	eventsDiv.innerHTML = content
+	eventsDiv.style.maxHeight = (windowHeight-271-document.getElementById("canvas").clientHeight) + "px";
 }
