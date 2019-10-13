@@ -8,7 +8,7 @@ const { Users, Rooms } = require("../db");
 Router.get("/", async (req, res) => {
     if (!req.token) return res.sendStatus(403);
 
-    let rooms = await Rooms.find({});
+    let rooms = await Rooms.find({}, { sort: { number: 1 } });
 
     for (let i = 0; i < rooms.length; i++) {
         let room = { ...rooms[i], _id: undefined };
