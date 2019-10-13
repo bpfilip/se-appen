@@ -67,7 +67,7 @@ Router.get("/users/unverified", async (req, res) => {
 })
 
 Router.get("/rooms", async (req, res) => {
-    const rooms = await Rooms.find({});
+    const rooms = await Rooms.find({}, { sort: { number: 1 } });
 
     res.send(rooms)
 })
