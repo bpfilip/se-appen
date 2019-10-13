@@ -22,11 +22,13 @@ async function run() {
 	const registration = await navigator.serviceWorker.
 		register('/sw.js', { scope: '/' });
 
-		// registration.showNotification('New message from Alice', {  
-		// 	actions: [  
-		// 	 {action: 'like', title: 'Like'},  
-		// 	 {action: 'reply', title: 'Reply'}]  
-		//   });
+	// registration.showNotification('New message from Alice', {  
+	// 	actions: [  
+	// 	 {action: 'like', title: 'Like'},  
+	// 	 {action: 'reply', title: 'Reply'}]  
+	//   });
+
+	if (localStorage.getItem("Notifications" == "false")) return;
 
 	const subscription = await registration.pushManager.
 		subscribe({
@@ -36,7 +38,7 @@ async function run() {
 			applicationServerKey: urlB64ToUint8Array(publicVapidKey)
 		});
 
-		// subscription.unsubscribe();
+	// subscription.unsubscribe();
 
 	let res = await fetch('/subscribe', {
 		method: 'POST',

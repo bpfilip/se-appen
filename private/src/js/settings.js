@@ -6,7 +6,10 @@ function initialize () {
     if (settingsLocation && locations.includes(settingsLocation)) {
         document.getElementById("root").style.display = "none";
         document.getElementById(settingsLocation).style.display = "block";
-    }
+	}
+	
+	document.getElementById("toggle-notifications-checkbox").checked = JSON.parse(localStorage.getItem("Notifications"));
+	if (JSON.parse(localStorage.getItem("Notifications")) == null) document.getElementById("toggle-notifications-checkbox").checked = true;
 }
 
 async function changePassword(form) {
@@ -52,4 +55,10 @@ async function changePassword(form) {
 	}
 	let data = await res.json();
 	document.location.href = "/private/";
+}
+
+function toggleNotifications () {
+	let checkbox = document.getElementById("toggle-notifications-checkbox");
+
+	localStorage.setItem("Notifications", checkbox.checked)
 }

@@ -43,10 +43,11 @@
                 </div>
             </div>
             <div id="notification-settings" class="setting-list" style="display: none;">
-                    <div onclick="goto('?setting=notification-settings')">
+                    <div id="toggle-notifications" onclick="document.getElementById('toggle-notifications-checkbox').checked = !document.getElementById('toggle-notifications-checkbox').checked; toggleNotifications();">
                         <span>Tænd sluk notifikationer</span>
+                        <input id="toggle-notifications-checkbox" type="checkbox" onclick="document.getElementById('toggle-notifications-checkbox').checked = !document.getElementById('toggle-notifications-checkbox').checked">
                     </div>
-                    <div onclick="goto('?setting=notification-settings')">
+                    <div onclick="goto('?setting=notification-settings')" style="display: none;">
                         <span>Vælg hvilke notifikationer du vil få</span>
                     </div>
                 </div>

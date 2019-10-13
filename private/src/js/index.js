@@ -69,8 +69,6 @@ async function getEvents() {
 	if (events.length < 1) return;
 
 	generateEvents(events)
-
-	console.log(events)
 }
 
 function generateEvents(events) {
