@@ -82,7 +82,9 @@ Router.post("/rooms/create", async (req, res) => {
     let sameRoom = await Rooms.findOne({ number: req.body.number })
     if (sameRoom) return res.status(400).send("A room with that number already exists");
 
-    Rooms.insert({ number: parseInt(req.body.number), users: [], state: 0, checked: false })
+    Rooms.insert({ number: parseInt(req.body.number), users: [], state: 0, checked: false });
+
+    return res.send({ status: "succes" })
 })
 
 Router.post("/clear", async (req, res) => {
