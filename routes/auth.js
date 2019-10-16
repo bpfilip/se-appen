@@ -35,6 +35,7 @@ Router.post("/register", async (req, res, next) => {
     if (sameName) return res.status(400).send("A user with that name alredy exists");
 
     req.body.username = req.body.username.toLowerCase();
+    req.body.username = req.body.username.trim();
 
     const sameUsername = await Users.findOne({ username: req.body.username })
     if (sameUsername) return res.status(400).send("A user with that username alredy exists");
@@ -58,6 +59,7 @@ Router.post("/login", async (req, res, next) => {
     if (!("password" in req.body)) return res.status(400).send("A password was not sent");
 
     req.body.username = req.body.username.toLowerCase();
+    req.body.username = req.body.username.trim();
 
     const users = await Users.find({ username: req.body.username });
 
