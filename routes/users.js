@@ -41,14 +41,14 @@ Router.post("/change/password", async (req, res) => {
 })
 
 Router.get("/", async (req, res) => {
-    if (!req.token) return res.sendStatus(403);
-    let adminUser = await Users.findOne({ username: req.user.username })
+	if (!req.token) return res.sendStatus(403);
+	let adminUser = await Users.findOne({ username: req.user.username })
 
-    if (!adminUser.admin) return res.status(403).send("Insufficient permission");
+	if (!adminUser.admin) return res.status(403).send("Insufficient permission");
 
-    const users = await Users.find({ verified: true });
+	const users = await Users.find({ verified: true }, { sort: { username: 1 } });
 
-    res.send({ ...users, password: undefined })
+	res.send({ ...users, password: undefined })
 })
 
 module.exports = Router;
