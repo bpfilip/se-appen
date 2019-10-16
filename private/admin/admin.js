@@ -207,13 +207,16 @@ function generateRoom(room) {
 	return div
 }
 
-async function newRoom() {
+async function newRoom(nmb) {
+
+	if (!nmb) nmb = prompt("Hvilket nummer skal rummet have?");
+	if (!nmb) alert("Indtast et rum")
 	let res = await fetch("/admin/rooms/create", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
 		},
-		body: JSON.stringify({ number: parseInt(prompt("Hvilket nummer skal rummet have?")) })
+		body: JSON.stringify({ number: nmb })
 	})
 
 	if (res.status == 400) return alert("Det rum eksisterer allerede")

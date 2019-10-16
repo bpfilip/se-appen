@@ -75,6 +75,8 @@ Router.get("/rooms", async (req, res) => {
 Router.post("/rooms/create", async (req, res) => {
     if (!("number" in req.body)) return res.status(400).send("A number was not sent");
 
+    if (isNaN(req.body.number)) return res.status(400).send("Invalid number");
+
     req.body.number = parseInt(req.body.number);
 
     let sameRoom = await Rooms.findOne({ number: req.body.number })
