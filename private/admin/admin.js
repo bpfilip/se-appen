@@ -3,6 +3,10 @@ function initialize() {
 
 	const locations = ["confirm-users", "show-users", "rooms", "clear"]
 
+	if (!settingsLocation) {
+		getUnverifiedCount();
+	}
+
 	if (!locations.includes(settingsLocation)) return;
 
 	if (settingsLocation) {
@@ -21,6 +25,16 @@ function initialize() {
 	if (settingsLocation == "clear") {
 		clear();
 	}
+}
+
+async function getUnverifiedCount() {
+	let res = await fetch("/admin/users/unverified/count");
+	let data = await res.json();
+	let count = data.count;
+	console.log(count)
+	if (count == 0) return;
+
+	document.getElementById("unverified-users-count").innerText = count;
 }
 
 async function clear() {

@@ -49,11 +49,9 @@ Router.post("/verify", async (req, res) => {
 Router.post("/unverify", async (req, res) => {
     if (!("username" in req.body)) return res.status(400).send("A username was not sent");
 
-    let user = await Users.findOne({ username: req.body.username });
+    let user = await Unverified.findOne({ username: req.body.username });
 
     if (!user) return res.status(400).send("That user doesn't exist");
-
-    const room = await Rooms.findOne({ number: user.roomNmb });
 
     Unverified.remove({ username: user.username });
 
@@ -64,6 +62,12 @@ Router.get("/users/unverified", async (req, res) => {
     const users = await Unverified.find({});
 
     res.send({ ...users, password: undefined })
+})
+
+Router.get("/users/unverified/count", async (req, res) => {
+    const users = await Unverified.find({});
+
+    res.send({ count: users.length })
 })
 
 Router.get("/rooms", async (req, res) => {

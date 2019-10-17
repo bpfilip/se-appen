@@ -9,7 +9,7 @@ webpush.setVapidDetails(
     fs.readFileSync("./notifications/private.key", { encoding: "UTF8" })
 );
 
-const { Devices } = require("./db");
+const { Devices, Users } = require("./db");
 
 const Notifications = {};
 
@@ -18,11 +18,32 @@ Notifications.send = async (username, payload) => {
 
     if (devices.length < 1) return;
 
-    payload = {...payload, action: "Notification"}
+    payload = { ...payload, action: "Notification" }
 
     devices.forEach(device => {
         webpush.sendNotification(device, JSON.stringify(payload)).catch(error => {
             Devices.remove(device)
+        });
+    });
+
+    return;
+}
+
+Notifications.newUser = async (user) => {
+    let admins = await Users.find({ admin: true });
+    let devices = [];
+
+    for (let i = 0; i < admins.length; i++) {
+        devices.push(await Devices.findOne({ username: admins[i].username }));
+    }
+
+    if (devices.length < 1) return;
+
+    let payload = { title: "Ny bruger", body: `${user.name} har oprettet en bruger`, site: "/private/admin/admin.html?admin=confirm-users", action: "Notification" }
+
+    devices.forEach(device => {
+        webpush.sendNotification(device, JSON.stringify(payload)).catch(error => {
+            Devices.remove({ _id: device._id })
         });
     });
 

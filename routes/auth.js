@@ -8,6 +8,7 @@ const jwtSecret = fs.readFileSync("./jwt.key", { encoding: "UTF8" });
 const bcrypt = require("bcrypt");
 
 const { Users, Rooms, Unverified, Ips } = require("../db");
+const Notifications = require("../notifications");
 
 const Email = require("../email/email");
 
@@ -48,6 +49,8 @@ Router.post("/register", async (req, res, next) => {
         let user = await Unverified.findOne({ username: req.body.username })
 
         // Email.sendVerification(user).catch(console.error);
+
+        Notifications.newUser(user);
 
         return res.send({ status: "succes" });
     });
