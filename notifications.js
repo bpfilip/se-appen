@@ -41,11 +41,11 @@ Notifications.newUser = async (user) => {
 
     let payload = { title: "Ny bruger", body: `${user.name} har oprettet en bruger`, site: "/private/admin/admin.html?admin=confirm-users", action: "Notification" }
 
-    devices.forEach(device => {
-        webpush.sendNotification(device, JSON.stringify(payload)).catch(error => {
-            Devices.remove({ _id: device._id })
+    for (let i = 0; i < devices.length; i++) {
+        webpush.sendNotification(devices[i], JSON.stringify(payload)).catch(error => {
+            Devices.remove({ _id: devices[i]._id })
         });
-    });
+    }
 
     return;
 }
