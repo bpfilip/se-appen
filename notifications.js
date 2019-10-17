@@ -42,6 +42,7 @@ Notifications.newUser = async (user) => {
     let payload = { title: "Ny bruger", body: `${user.name} har oprettet en bruger`, site: "/private/admin/admin.html?admin=confirm-users", action: "Notification" }
 
     for (let i = 0; i < devices.length; i++) {
+        console.log(devices[i])
         webpush.sendNotification(devices[i], JSON.stringify(payload)).catch(error => {
             Devices.remove({ _id: devices[i]._id })
         });
