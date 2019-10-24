@@ -34,7 +34,8 @@ async function startSchedule() {
         const data = clearTime;
         for (let day = 0; day < clearTimes[clearTime].days.length; day++) {
             let rule = new Schedule.RecurrenceRule();
-            rule.dayOfWeek = clearTimes[clearTime].days[day] == 7 ? 0 : clearTimes[clearTime].days[day];
+            if (clearTimes[clearTime].time[0] < 12) clearTimes[clearTime].days[day] += 1;
+            rule.dayOfWeek = clearTimes[clearTime].days[day] > 6 ? clearTimes[clearTime].days[day]-7 : clearTimes[clearTime].days[day] ;
             rule.hour = clearTimes[clearTime].time[0];
             rule.minute = clearTimes[clearTime].time[1];
 
