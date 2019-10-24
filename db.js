@@ -5,5 +5,7 @@ const Devices = monk.get("devices");
 const Unverified = monk.get("unverified");
 const Ips = monk.get("ips");
 const Events = monk.get("events");
+const Settings = monk.get("settings");
+const ClearTimes= monk.get("cleartimes");
 
-module.exports = { Users, Rooms, Devices, Unverified, Ips, Events }
+module.exports = { Users, Rooms, Devices, Unverified, Ips, Events, Settings, ClearTimes }

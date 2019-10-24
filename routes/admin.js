@@ -1,7 +1,10 @@
 const express = require("express");
 const Router = express.Router();
 
-const { Users, Rooms, Unverified, Events } = require("../db");
+const { Users, Rooms, Unverified, Events, ClearTimes } = require("../db");
+
+const redis = require("redis");
+const client = redis.createClient();
 
 // Auth
 
@@ -13,6 +16,8 @@ Router.use(async (req, res, next) => {
 
     return next();
 })
+
+// ##############
 
 Router.post("/create/rooms", async (req, res) => {
     let newRooms = req.body;
@@ -101,6 +106,54 @@ Router.post("/clear", async (req, res) => {
     let user = await Users.findOne({ username: req.user.username })
 
     Events.insert({ action: "clear", user: user._id, createdAt: new Date().getTime() })
+
+    return res.send({ status: "succes" });
+})
+
+Router.get("/cleartimes", async (req, res) => {
+    let clearTimes = await ClearTimes.find({});
+
+    return res.send(clearTimes);
+})
+
+Router.get("/cleartimes/onetime", async (req, res) => {
+    let clearTimes = await ClearTimes.find({ oneTime: true });
+
+    return res.send(clearTimes);
+})
+
+Router.post("/cleartimes/add", async (req, res) => {
+    if (!("days" in req.body)) return res.status(400).send("No days was sent");
+    if (!("time" in req.body)) return res.status(400).send("A time was not sent");
+
+    let oneTime = false;
+    if ("oneTime" in req.body) {
+        if (req.body.oneTime == true) oneTime = true;
+    }
+
+    let time = req.body.time.map(t => parseInt(t));
+
+    await ClearTimes.insert({ days: req.body.days, time, oneTime, enabled: true });
+
+    client.publish("settings", JSON.stringify({ type: "cleartimes-change" }))
+
+    return res.send({ status: "succes" });
+})
+
+Router.put("/cleartimes/change/:id", async (req, res) => {
+    let time = await ClearTimes.findOne({ _id: req.params.id });
+
+    await ClearTimes.update({ _id: req.params.id }, { $set: { enabled: !time.enabled } });
+
+    client.publish("settings", JSON.stringify({ type: "cleartimes-change" }))
+
+    return res.send({ status: "succes" });
+})
+
+Router.delete("/cleartimes/:id", async (req, res) => {
+    await ClearTimes.remove({ _id: req.params.id });
+
+    client.publish("settings", JSON.stringify({ type: "cleartimes-change" }))
 
     return res.send({ status: "succes" });
 })

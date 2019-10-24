@@ -20,7 +20,7 @@
             <h1 class="title">Appen</h1>
         </div>
         <div class="content">
-            <div id="root" class="admin-list">
+            <div id="root" class="admin-list" style="display: none;">
                 <div onclick="goto('?admin=confirm-users')">
                     <span>Bekræft nye brugere</span>
                     <div id="unverified-users-count">0</div>
@@ -32,27 +32,55 @@
                     <span>Administrer rum</span>
                 </div>
                 <div onclick="goto('?admin=clear')">
-                    <span>Nulstil alle rum</span>
+                    <span>Nulstil alle rum nu</span>
+                </div>
+                <div onclick="goto('?admin=auto-clear')">
+                    <span>Indstil automatisk nulstilning</span>
                 </div>
             </div>
             <div id="clear" class="admin-list" style="display: none;">
                 <span>Alle rum er nulstillet</span>
             </div>
+            <div id="auto-clear" class="admin-list" style="display: none;">
+                <div class="day-title" onclick="addDay([7,1,2,3,4]);">
+                    <span>Søndag - Torsdag</span>
+                    <img src="/private/src/images/add.svg" width="40px">
+                </div>
+                <div class="times">
+                    <div>Ingen tider</div>
+                </div>
+                <div class="day-title" onclick="addDay([5]);">
+                    <span>Fredag</span>
+                    <img src="/private/src/images/add.svg" width="40px">
+                </div>
+                <div class="times">
+                    <div class="no-times">Ingen tider</div>
+                </div>
+                <div class="day-title" onclick="addDay([6]);">
+                    <span>Lørdag</span>
+                    <img src="/private/src/images/add.svg" width="40px">
+                </div>
+                <div class="times">
+                    <div class="no-times">Ingen tider</div>
+                </div>
+                <div class="day-title" onclick="addDay(true);">
+                    <span>Enkelte dage</span>
+                    <img src="/private/src/images/add.svg" width="40px">
+                </div>
+                <div class="times">
+                    <div class="no-times">Ingen tider</div>
+                </div>
+            </div>
             <div id="confirm-users" class="admin-list" style="display: none;">
-                <span id="loading-confirm-users" class="loading">Henter...</span>
+                <span class="loading">Henter...</span>
             </div>
             <div id="show-users" class="admin-list" style="display: none;">
-                <div class="user-all">
-                    <span>Filli1303</span>
-                </div>
-                <div class="user-all">
-                    <span>Borum</span>
-                </div>
+                <span class="loading">Henter...</span>
             </div>
             <div id="rooms" class="admin-list" style="display: none;">
                 <span id="loading-rooms" class="loading">Henter...</span>
                 <input type="submit" value="Tilføj rum" onclick="newRoom()"
-                style="position: absolute; bottom: 0;width: 95%">
+                    style="position: absolute; bottom: 0;width: 95%">
             </div>
         </div>
         <div class="menu">
