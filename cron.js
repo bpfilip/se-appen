@@ -35,7 +35,7 @@ async function startSchedule() {
         for (let day = 0; day < clearTimes[clearTime].days.length; day++) {
             let rule = new Schedule.RecurrenceRule();
             if (clearTimes[clearTime].time[0] < 12) clearTimes[clearTime].days[day] += 1;
-            rule.dayOfWeek = clearTimes[clearTime].days[day] > 6 ? clearTimes[clearTime].days[day]-7 : clearTimes[clearTime].days[day] ;
+            rule.dayOfWeek = clearTimes[clearTime].days[day] > 6 ? clearTimes[clearTime].days[day] - 7 : clearTimes[clearTime].days[day];
             rule.hour = clearTimes[clearTime].time[0];
             rule.minute = clearTimes[clearTime].time[1];
 
@@ -48,7 +48,7 @@ async function startSchedule() {
                     Rooms.update({ _id: room._id }, { $set: { checked: false } });
                 });
 
-                Events.insert({ action: "clear", auto:true, createdAt: new Date().getTime() })
+                Events.insert({ action: "clear", auto: true, createdAt: new Date().getTime() })
             }.bind(null, data));
 
             schedules.push(schedule);
@@ -58,7 +58,7 @@ async function startSchedule() {
 
 console.log("Cron started");
 
-(async ()=>{
+(async () => {
     await startSchedule();
     console.log(schedules.length + " jobs started");
 })();

@@ -1,6 +1,6 @@
 {
 	"name": "SE-Appen",
-	"short_name": "SE",
+	"short_name": "SE-Appen",
 	"start_url": "/private/",
 	"display": "standalone",
 	"theme_color": "#18837C",
