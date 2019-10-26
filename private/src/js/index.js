@@ -1,4 +1,5 @@
 let img;
+let nextClear;
 
 let cords = [];
 
@@ -32,9 +33,22 @@ function setup() {
 	// } else {
 	// 	alert("browser")
 	// }
+
+	getNext();
+}
+
+async function getNext() {
+	let res = await fetch("/events/next");
+	nextClear = parseInt(await res.text());
+
+	// nextClear += new Date().getTime()
+
+	console.log(nextClear)
 }
 
 function draw() {
+	image(img, 0, 0, 726, 480);
+
 	dots.forEach(dot => {
 		if (!dot) return;
 		fill(227, 16, 16);
@@ -43,6 +57,33 @@ function draw() {
 		textAlign(CENTER, CENTER);
 		text(dot.number, dot.x, dot.y);
 	});
+
+	if (nextClear) {
+		let now = new Date().getTime();
+		let diff = nextClear - now;
+
+		let secs = Math.floor(diff / 1000 % 60);
+		let mins = Math.floor(diff / 60000 % 60);
+		let hrs = Math.floor(diff / 3600000 % 24);
+		let days = Math.floor(diff / 86400000);
+
+		if (days > 6) days -= 7;
+
+		if (days == 0) {
+			if (document.getElementById("next").innerText != `${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`)
+			document.getElementById("next").innerText = `${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`
+		} else {
+			if (document.getElementById("next").innerText != `${days} ${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`)
+			document.getElementById("next").innerText = `${days} ${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`
+		}
+
+		// textSize(40);
+		// textAlign(LEFT, CENTER);
+		// fill(0);
+		// text(`Nulstilling om:`, 60, 370);
+		// textSize(35);
+		// text(`${hrs}:${mins}:${secs}`, 60, 420);
+	}
 }
 
 function mousePressed() {
@@ -111,8 +152,8 @@ window.mobileAndTabletcheck = function () {
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
-  // Stash the event so it can be triggered later.
-  deferredPrompt = e;
-  
-  console.log(deferredPrompt)
+	// Stash the event so it can be triggered later.
+	deferredPrompt = e;
+
+	console.log(deferredPrompt)
 });

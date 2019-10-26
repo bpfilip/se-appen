@@ -128,3 +128,14 @@ input {
     font-size: 55px;
     margin-top: 10px;
 }
+
+.next {
+    position: absolute;
+    left: 80px;
+    top: 630px;
+    font-size: 60px;
+}
+
+#next {
+
+}

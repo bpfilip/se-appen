@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "push": "git push prod master",
-    "debug": "nodemon --inspect server.js",
+    "debug": "nodemon --inspect --ignore ./private/ --ignore ./public/ server.js",
+    "cron": "nodemon cron.js --ignore ./private/ --ignore ./public/",
     "cachelist": "node cachelist.js"
   },
   "author": "",
