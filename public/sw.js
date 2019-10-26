@@ -10,19 +10,26 @@ var urlsToCache = [
 	'/private/src/css/index.css',
 	'/private/src/css/menu.css',
 	'/private/src/css/settings.css',
+	'/private/src/images/add.svg',
 	'/private/src/images/checkmark.png',
 	'/private/src/images/logo-225x225.png',
 	'/private/src/images/skole.png',
 	'/private/src/images/x.png',
+	'/private/src/js/dots.js',
 	'/private/src/js/index.js',
 	'/private/src/js/menu.js',
+	'/private/src/js/p5.min.js',
 	'/private/src/js/settings.js',
 	'/favicon.ico',
 	'/index.html',
 	'/manifest.json',
+	'/socket.io/socket.io.js',
 	'/src/css/index.css',
 	'/src/css/menu.css',
+	'/src/images/logo-192x192.png',
 	'/src/images/logo-225x225.png',
+	'/src/images/logo-512x512.png',
+	'/src/images/logo-800x800.png',
 	'/src/js/index.js',
 	'/src/js/notifications.js',
 	'/sw.js'
@@ -39,21 +46,13 @@ self.addEventListener('install', function (event) {
 	);
 });
 
-// self.addEventListener('fetch', function (event) {
-// 	return fetch(event.request);
-// 	event.respondWith(
-// 		caches.match(event.request)
-// 			.then(function (response) {
-				
-// 				// Cache hit - return response
-// 				if (response) {
-// 					return response;
-// 				}
-// 				return fetch(event.request);
-// 			}
-// 			)
-// 	);
-// });
+self.addEventListener('fetch', function (event) {
+	event.respondWith(
+		fetch(event.request).catch(function () {
+			return caches.match(event.request);
+		})
+	);
+});
 
 self.addEventListener('push', ev => {
 	const data = ev.data.json();

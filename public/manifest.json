@@ -4,11 +4,27 @@
 	"start_url": "/private/",
 	"display": "standalone",
 	"theme_color": "#18837C",
+	"background_color": "#ffffff",
 	"icons": [
 		{
 			"src": "/src/images/logo-225x225.png",
 			"type": "image/png",
 			"sizes": "225x225"
+		},
+		{
+			"src": "/src/images/logo-800x800.png",
+			"type": "image/png",
+			"sizes": "800x800"
+		},
+		{
+			"src": "/src/images/logo-512x512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "/src/images/logo-192x192.png",
+			"type": "image/png",
+			"sizes": "192x192"
 		}
 	],
 	"orientation": "portrait"
