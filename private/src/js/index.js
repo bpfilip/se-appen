@@ -62,6 +62,12 @@ function draw() {
 		let now = new Date().getTime();
 		let diff = nextClear - now;
 
+		if (diff < 0) {
+			document.getElementById("next").innerText = `00:00:00`
+			getNext();
+			return;
+		}
+
 		let secs = Math.floor(diff / 1000 % 60);
 		let mins = Math.floor(diff / 60000 % 60);
 		let hrs = Math.floor(diff / 3600000 % 24);
@@ -71,10 +77,10 @@ function draw() {
 
 		if (days == 0) {
 			if (document.getElementById("next").innerText != `${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`)
-			document.getElementById("next").innerText = `${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`
+				document.getElementById("next").innerText = `${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`
 		} else {
 			if (document.getElementById("next").innerText != `${days} ${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`)
-			document.getElementById("next").innerText = `${days} ${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`
+				document.getElementById("next").innerText = `${days} ${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`
 		}
 
 		// textSize(40);
