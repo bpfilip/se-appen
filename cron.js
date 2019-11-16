@@ -10,11 +10,11 @@ let scheduleTimes = [];
 
 const redis = require("redis");
 const client = redis.createClient();
-const publisher = redis.createClient();
 
 client.subscribe("settings");
 
 client.on("message", (channel, message) => {
+    if (channel !== "settings") return;
     let event = JSON.parse(message);
 
     if (event.type == "cleartimes-change") {
@@ -51,7 +51,6 @@ async function startSchedule() {
 
                 Events.insert({ action: "clear", auto: true, createdAt: new Date().getTime() });
 
-                // publisher.publish("settings", JSON.stringify({type: "cleartimes-change"}));
                 startSchedule();
             });
 

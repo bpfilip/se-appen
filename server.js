@@ -33,6 +33,7 @@ app.use("/admin", require("./routes/admin"));
 app.use("/subscribe", require("./routes/subscribe"));
 app.use("/checked", require("./routes/checked"));
 app.use("/events", require("./routes/events"));
+app.use("/groups", require("./routes/groups"));
 
 // static content
 app.use("/", express.static("public"));

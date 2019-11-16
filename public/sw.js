@@ -62,8 +62,10 @@ self.addEventListener('push', ev => {
 		self.registration.showNotification(data.title, {
 			body: data.body,
 			icon: '/src/images/logo-225x225.png',
-			data
+			data,
+			tag: data.tag
 		});
+		// self.registration.hideNotification();
 		return;
 	}
 });

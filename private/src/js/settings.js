@@ -1,13 +1,17 @@
-function initialize () {
-    const settingsLocation = new URL(window.location.href).searchParams.get("setting");
-    
-    const locations = ["profile-details", "change-name", "change-username", "change-password", "change-mail", "notification-settings"]
-    
-    if (settingsLocation && locations.includes(settingsLocation)) {
-        document.getElementById("root").style.display = "none";
-        document.getElementById(settingsLocation).style.display = "block";
+function initialize() {
+	const settingsLocation = new URL(window.location.href).searchParams.get("setting");
+
+	const locations = ["profile-details", "change-name", "change-username", "change-password", "change-mail", "notification-settings"]
+
+	if (settingsLocation && locations.includes(settingsLocation)) {
+		document.getElementById("root").style.display = "none";
+		document.getElementById(settingsLocation).style.display = "block";
 	}
-	
+
+	if (settingsLocation == "notification-settings") {
+		notificationSettings();
+	}
+
 	document.getElementById("toggle-notifications-checkbox").checked = JSON.parse(localStorage.getItem("Notifications"));
 	if (JSON.parse(localStorage.getItem("Notifications")) == null) document.getElementById("toggle-notifications-checkbox").checked = true;
 }
@@ -24,14 +28,14 @@ async function changePassword(form) {
 		errorBox.innerText = "Du skal indtaste en adgangskode";
 		errorBox.style.display = "block";
 		return;
-    }
-    if (form.password.value !== form.confirm.value) {
+	}
+	if (form.password.value !== form.confirm.value) {
 		let errorBox = document.getElementById("change-password-error");
 		errorBox.innerText = "Adgangskoderne er ikke ens";
 		errorBox.style.display = "block";
 		return;
 	}
-    if (form.password.value !== form.new.value) {
+	if (form.password.value !== form.new.value) {
 		let errorBox = document.getElementById("change-password-error");
 		errorBox.innerText = "Din nye adgangskode kan ikke være det samme";
 		errorBox.style.display = "block";
@@ -57,7 +61,7 @@ async function changePassword(form) {
 	document.location.href = "/private/";
 }
 
-function toggleNotifications () {
+function toggleNotifications() {
 	let checkbox = document.getElementById("toggle-notifications-checkbox");
 
 	localStorage.setItem("Notifications", checkbox.checked)

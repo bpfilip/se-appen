@@ -40,6 +40,11 @@ Router.post("/change/password", async (req, res) => {
 	});
 })
 
+Router.post("/change/notifications", async (req, res) => {
+	if (!req.token) return res.sendStatus(403);
+	if (!("current" in req.body)) return res.status(400).send("The current password was not sent");
+})
+
 Router.get("/", async (req, res) => {
 	if (!req.token) return res.sendStatus(403);
 	let adminUser = await Users.findOne({ username: req.user.username })

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { Devices } = require("../db");
+const { Devices, Users } = require("../db");
 
 const Notifications = require("../notifications");
 
@@ -18,7 +18,9 @@ router.post("/", async (req, res) => {
 	let device = await Devices.findOne({ ...subscription });
 	if (device) return res.send({ status: "Already subscribed" })
 
-	Devices.insert({ ...subscription, ...req.user });
+	let user = await Users.findOne({ ...req.user });
+
+	Devices.insert({ ...subscription, user: user._id });
 
 	return res.status(200).send({ status: "succes" });
 });
