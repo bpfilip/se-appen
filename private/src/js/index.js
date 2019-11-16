@@ -24,15 +24,21 @@ function setup() {
 	getRooms();
 	getEvents();
 
-	// if (mobileAndTabletcheck()) {
-	// 	if (window.matchMedia('(display-mode: standalone)').matches) {
-	// 		alert("This is running as standalone.");
-	// 	} else {
-	// 		alert("mobile")
-	// 	}
-	// } else {
-	// 	alert("browser")
-	// }
+	if (mobileAndTabletcheck()) {
+		if (window.matchMedia('(display-mode: standalone)').matches) {
+			// alert("This is running as standalone.");
+		} else {
+			// alert("mobile");
+
+			const userAgent = window.navigator.userAgent.toLowerCase();
+			if (/iphone|ipad|ipod/.test(userAgent)) {
+				document.getElementById("install-prompt").style.display = "block";
+				document.getElementById("ios").style.display = "block";
+			}
+		}
+	} else {
+		// alert("browser");
+	}
 
 	getNext();
 }

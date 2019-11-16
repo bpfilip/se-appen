@@ -100,6 +100,13 @@ input {
     float: right;
 }
 
+.next {
+    position: absolute;
+    left: 80px;
+    top: 630px;
+    font-size: 60px;
+}
+
 .install-prompt {
     position: fixed;
     overflow: auto;
@@ -114,8 +121,7 @@ input {
 
 .install-prompt-content {
     margin: 50px;
-    margin-top: 200px;
-    background:rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
     border: 1px;
     border-color: black;
     border-style: solid;
@@ -129,13 +135,25 @@ input {
     margin-top: 10px;
 }
 
-.next {
-    position: absolute;
-    left: 80px;
-    top: 630px;
-    font-size: 60px;
+.install-prompt-content>.close {
+    float: right;
+    width: 50px;
+    margin: 30px;
 }
 
-#next {
+.install-prompt-content>.install-picture {
+    margin-left: 200px;
+    width: 450px;
+}
 
+.show-again {
+    float: none;
+    width: 35px;
+    height: 35px;
+    margin: 0px;
+    margin-left: 20px;
+}
+
+.install-prompt-content>label {
+    font-size: 40px;
 }

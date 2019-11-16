@@ -67,12 +67,21 @@
                 </div>
             </div>
         </div>
-        <div class="install-prompt" style="display: none;">
+        <div class="install-prompt" id="install-prompt" style="display: none;"
+            onclick="if (event.target == this) this.style.display = 'none';">
             <div class="install-prompt-content" id="android" style="display: none;">
                 <h1>Føj appen til din startskærm</h1>
+                <input type="checkbox" name="show-again" class="show-again">
             </div>
             <div class="install-prompt-content" id="ios" style="display: none;">
+                <img src="/private/src/images/x.png" class="close"
+                    onclick="this.parentElement.parentElement.style.display = 'none';">
                 <h1>Føj appen til din startskærm</h1>
+                <img src="/private/src/images/install1.jpg" class="install-picture">
+                <img src="/private/src/images/install2.jpg" class="install-picture">
+                <br>
+                <label for="show-again">Vis ikke igen</label>
+                <input type="checkbox" name="show-again" class="show-again">
             </div>
         </div>
     </div>
