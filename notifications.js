@@ -79,10 +79,11 @@ Notifications.checked = async (userId, roomId) => {
         let devices = [];
 
         for (let i = 0; i < users.length; i++) {
-            devices = [...devices, ...await Devices.find({ user: users[i] })];
+            if (users[i] != userId)
+                devices = [...devices, ...await Devices.find({ user: users[i] })];
         }
 
-        let payload = { title: "Der er blevet tjekket på "+notificationGroups[i].name, body: `Værelse ${room.number} er lige blevet tjekket`, site: "/private/", action: "Notification", tag: Math.random() }
+        let payload = { title: "Der er blevet tjekket på " + notificationGroups[i].name, body: `Værelse ${room.number} er lige blevet tjekket`, site: "/private/", action: "Notification", tag: Math.random() }
 
         for (let i = 0; i < devices.length; i++) {
             webpush.sendNotification(devices[i], JSON.stringify(payload)).catch(error => {
