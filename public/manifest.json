@@ -1,7 +1,7 @@
 {
 	"name": "SE-Appen",
 	"short_name": "SE-Appen",
-	"start_url": "/private/",
+	"start_url": "/",
 	"display": "standalone",
 	"theme_color": "#18837C",
 	"background_color": "#ffffff",
