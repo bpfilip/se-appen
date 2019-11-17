@@ -32,8 +32,8 @@ function setup() {
 
 			const userAgent = window.navigator.userAgent.toLowerCase();
 			if (/iphone|ipad|ipod/.test(userAgent)) {
-				document.getElementById("install-prompt").style.display = "block";
-				document.getElementById("ios").style.display = "block";
+				// document.getElementById("install-prompt").style.display = "block";
+				// document.getElementById("ios").style.display = "block";
 			}
 		}
 	} else {
