@@ -8,7 +8,7 @@ Router.get("/", async (req, res) => {
 
 	let clearEvents = await Events.find({ action: "clear" }, { sort: { createdAt: -1 } });
 
-	let events = await Events.find({ action: "checked", again: undefined, createdAt: { $gt: clearEvents[0].createdAt } }, { sort: { createdAt: -1 } });
+	let events = await Events.find({ action: "checked", again: { $not: { $eq: true } }, createdAt: { $gt: clearEvents[0].createdAt } }, { sort: { createdAt: -1 } });
 
 	for (let i = 0; i < events.length; i++) {
 		let room = await Rooms.findOne({ _id: events[i].room.toString() });
@@ -26,7 +26,7 @@ Router.get("/next", async (req, res) => {
 
 	let scheduleTimes = await ScheduleTimes.findOne({});
 
-	return res.send(scheduleTimes.times[0]+"")
+	return res.send(scheduleTimes.times[0] + "")
 });
 
 module.exports = Router;
