@@ -1,5 +1,6 @@
 require("dotenv").config();
 const fs = require("fs");
+const path = require('path');
 
 const { Users } = require("./db");
 
@@ -35,6 +36,12 @@ app.use("/checked", require("./routes/checked"));
 app.use("/events", require("./routes/events"));
 app.use("/groups", require("./routes/groups"));
 
+app.get("/", (req, res, next)=>{
+    if (req.query.logout == "1") {
+        return res.sendFile(__dirname+ "/public/logout.html");
+    }
+    return next();
+});
 // static content
 app.use("/", express.static("public"));
 

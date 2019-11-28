@@ -66,3 +66,7 @@ function toggleNotifications() {
 
 	localStorage.setItem("Notifications", checkbox.checked)
 }
+
+function logout() {
+	location.href = "/?logout=1";
+}
