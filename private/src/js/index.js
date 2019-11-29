@@ -38,6 +38,7 @@ function setup() {
 		}
 	} else {
 		// alert("browser");
+		alert("Siden er virker bedst på mobil");
 	}
 
 	getNext();
