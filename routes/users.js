@@ -51,7 +51,7 @@ Router.get("/", async (req, res) => {
 
 	if (!adminUser.admin) return res.status(403).send("Insufficient permission");
 
-	const users = await Users.find({ verified: true }, { sort: { username: 1 } });
+	const users = await Users.find({ verified: true }, { sort: { name: 1 } });
 
 	res.send({ ...users, password: undefined })
 })
