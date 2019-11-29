@@ -1,6 +1,6 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const jwtSecret = fs.readFileSync("./jwt.key", { encoding: "UTF8" });
+const jwtSecret = process.env.jwtkey;
 
 const nodemailer = require('nodemailer');
 

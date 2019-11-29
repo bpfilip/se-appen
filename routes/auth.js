@@ -1,9 +1,8 @@
 const express = require("express");
 const Router = express.Router();
 
-const fs = require("fs")
 const jwt = require('jsonwebtoken');
-const jwtSecret = fs.readFileSync("./jwt.key", { encoding: "UTF8" });
+const jwtSecret = process.env.jwtkey;;
 
 const bcrypt = require("bcrypt");
 
