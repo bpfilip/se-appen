@@ -1,5 +1,6 @@
 let img;
 let nextClear;
+let alreadyChecked = false;
 
 let cords = [];
 
@@ -131,6 +132,14 @@ async function getEvents() {
 	let events = await res.json();
 
 	if (events.length < 1) return;
+
+	for (let i = 0; i < events.length; i++) {
+		if (events[i].user == me.name) {
+			alreadyChecked = true;
+			document.getElementById("checked").style.display = "none";
+			document.getElementById("checked-again").style.display = "block";
+		}
+	}
 
 	generateEvents(events)
 }

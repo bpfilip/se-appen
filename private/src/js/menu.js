@@ -1,3 +1,5 @@
+var me;
+
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
 
@@ -71,6 +73,7 @@ async function getUser() {
     })
 
     let user = await res.json();
+    me = user;
 
     if (user.admin) {
         document.getElementById("menu-item-admin").style.display = "block";
