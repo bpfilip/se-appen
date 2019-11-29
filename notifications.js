@@ -47,7 +47,7 @@ Notifications.newUser = async (user) => {
 
     if (devices.length < 1) return;
 
-    let payload = { title: "Ny bruger", body: `${user.name} har oprettet en bruger`, site: "/private/admin/admin.html?admin=confirm-users", action: "Notification" }
+    let payload = { title: "Ny bruger", body: `${user.name} har oprettet en bruger`, site: "/private/admin/admin.html?admin=confirm-users", action: "Notification", tag: Math.random() }
 
     for (let i = 0; i < devices.length; i++) {
         console.log(devices[i])

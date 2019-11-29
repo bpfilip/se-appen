@@ -1,7 +1,7 @@
 const express = require("express");
 const Router = express.Router();
 
-const { Users, Rooms, Unverified, Events, ClearTimes } = require("../db");
+const { Users, Rooms, Unverified, Events, ClearTimes, NotificationGroups } = require("../db");
 
 const redis = require("redis");
 const client = redis.createClient();
@@ -46,7 +46,12 @@ Router.post("/verify", async (req, res) => {
 
     let users = room.users;
     users.push(user._id)
-    Rooms.update({ _id: room._id }, { $set: { users } })
+    Rooms.update({ _id: room._id }, { $set: { users } });
+
+    // Auto subscribe to notification group
+    let group = await NotificationGroups.findOne({ rooms: { $in: [room._id] }, public: true });
+
+    NotificationGroups.update({ _id: group._id }, { $push: { users: user._id } });
 
     return res.send({ status: "succes" })
 })
