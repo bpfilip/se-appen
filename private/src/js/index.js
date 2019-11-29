@@ -38,7 +38,7 @@ function setup() {
 		}
 	} else {
 		// alert("browser");
-		alert("Siden virker bedst på mobil");
+		alert("Siden virker bedst på mobil\nSupport til computer kommer snart");
 	}
 
 	getNext();
