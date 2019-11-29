@@ -50,7 +50,6 @@ Notifications.newUser = async (user) => {
     let payload = { title: "Ny bruger", body: `${user.name} har oprettet en bruger`, site: "/private/admin/admin.html?admin=confirm-users", action: "Notification", tag: Math.random() }
 
     for (let i = 0; i < devices.length; i++) {
-        console.log(devices[i])
         webpush.sendNotification(devices[i], JSON.stringify(payload)).catch(error => {
             Devices.remove({ _id: devices[i]._id })
         });
@@ -63,8 +62,6 @@ Notifications.checked = async (userId, roomId) => {
     broadcast.publish("debug", JSON.stringify({ test: "a" }));
 
     let room = await Rooms.findOne({ _id: roomId })
-
-    console.log(roomId)
 
     let notificationGroups = await NotificationGroups.find({ rooms: { $in: [room._id] } });
 
@@ -101,6 +98,5 @@ client.on("message", (channel, data) => {
     if (channel !== "notifications") return;
     let event = JSON.parse(data);
 
-    // console.log(event)
     Notifications.checked(event.user, event.room)
 });

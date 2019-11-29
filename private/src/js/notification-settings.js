@@ -2,8 +2,6 @@ async function notificationSettings() {
     let res = await fetch("/groups/");
     let groups = await res.json()
 
-    console.log(groups)
-
     let parent = document.querySelector("#groups");
 
     for (let i = 0; i < groups.length; i++) {

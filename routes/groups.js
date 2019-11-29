@@ -13,8 +13,6 @@ Router.get("/", async (req, res) => {
 
     let groups = await NotificationGroups.find({ $or: [{ public: true }, { user: user._id }] });
 
-    console.log(groups)
-
     for (let i = 0; i < groups.length; i++) {
         for (let j = 0; j < groups[i].rooms.length; j++) {
             groups[i].rooms[j] = (await Rooms.findOne({ _id: groups[i].rooms[j] })).number;
@@ -30,8 +28,6 @@ Router.get("/", async (req, res) => {
 
         groups[i] = { name: groups[i].name, rooms: groups[i].rooms, enabled: groups[i].enabled, public: groups[i].public }
     }
-
-    console.log(groups)
 
     return res.send(groups);
 });

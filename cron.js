@@ -20,8 +20,6 @@ client.on("message", (channel, message) => {
     if (event.type == "cleartimes-change") {
         startSchedule();
     }
-
-    console.log(event);
 });
 
 async function startSchedule() {
@@ -70,7 +68,4 @@ console.log("Cron started");
 (async () => {
     await startSchedule();
     console.log(schedules.length + " jobs started");
-    // console.log(scheduleTimes)
 })();
-
-// setInterval(startSchedule, 1000);

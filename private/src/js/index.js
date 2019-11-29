@@ -48,10 +48,6 @@ function setup() {
 async function getNext() {
 	let res = await fetch("/events/next");
 	nextClear = parseInt(await res.text());
-
-	// nextClear += new Date().getTime()
-
-	console.log(nextClear)
 }
 
 function draw() {

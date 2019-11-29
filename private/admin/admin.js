@@ -35,7 +35,6 @@ async function getUnverifiedCount() {
 	let res = await fetch("/admin/users/unverified/count");
 	let data = await res.json();
 	let count = data.count;
-	console.log(count)
 	if (count == 0) return;
 
 	document.getElementById("unverified-users-count").innerText = count;
@@ -298,12 +297,6 @@ async function autoClear() {
 		!time.oneTime && time.days.length == 1 && time.days[0] == 6
 	);
 
-	console.log(clearTimes);
-	console.log("oneTimes", oneTimes);
-	console.log("week", week);
-	console.log("friday", friday);
-	console.log("saturday", saturday);
-
 	for (let i = 2; i < 9; i += 2) {
 		document.querySelector("#auto-clear > div:nth-child(" + i + ")").innerHTML = `<div class="no-times">Ingen tider</div>`
 	}
@@ -355,18 +348,14 @@ async function toggleTime(div) {
 }
 
 async function deleteTime(div) {
-	console.log(div)
 	let res = await fetch("/admin/cleartimes/" + div.getAttribute("timeid"), {
 		method: "DELETE"
 	});
-
-	console.log(res)
 
 	autoClear();
 }
 
 function timeClick(event, div) {
-	console.log(event.target.tagName)
 	if (event.target.tagName == "IMG") {
 		deleteTime(div);
 	} else {
