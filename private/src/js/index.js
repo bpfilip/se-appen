@@ -126,11 +126,12 @@ async function getRooms() {
 async function getEvents() {
 	let res = await fetch("/events");
 	let events = await res.json();
+	console.log(events)
 
 	if (events.length < 1) return;
 
 	for (let i = 0; i < events.length; i++) {
-		if (events[i].user == me.name) {
+		if (events[i].room == me.roomNmb) {
 			alreadyChecked = true;
 			document.getElementById("checked").style.display = "none";
 			document.getElementById("checked-again").style.display = "block";
