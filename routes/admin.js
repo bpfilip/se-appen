@@ -163,4 +163,32 @@ Router.delete("/cleartimes/:id", async (req, res) => {
     return res.send({ status: "succes" });
 })
 
+Router.post("/user/get", async (req, res) => {
+    if (!("username" in req.body)) return res.status(400).send("A username was not sent");
+
+    let user = await Users.findOne({ username: req.body.username });
+
+    if (!user) return res.status(400).send("Invalid username");
+
+    return res.send({ username: user.username, name: user.name, email: user.email, room: user.roomNmb });
+})
+
+Router.post("/user/change", async (req, res) => {
+    if (!("oldUsername" in req.body)) return res.status(400).send("The old username was not sent");
+    if (!("username" in req.body)) return res.status(400).send("The old username was not sent");
+    if (!("name" in req.body)) return res.status(400).send("A name was not sent");
+    if (!("email" in req.body)) return res.status(400).send("A email was not sent");
+    if (!("room" in req.body)) return res.status(400).send("A room was not sent");
+
+    let user = await Users.findOne({ username: req.body.oldUsername });
+
+    if (!user) return res.status(400).send("Invalid user");
+
+    let sameUsername = await Users.findOne({ username: req.body.username });
+
+    if (sameUsername) return res.status(400).send("Invalid username");
+
+    
+})
+
 module.exports = Router;

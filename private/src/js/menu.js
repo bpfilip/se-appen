@@ -1,4 +1,4 @@
-var me;
+let me;
 
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);

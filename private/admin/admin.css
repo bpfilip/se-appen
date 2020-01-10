@@ -151,3 +151,17 @@ input {
     padding-left: 20px;
     font-size: 45px;
 }
+
+.edit-icon {
+    width: 70px;
+    float: right;
+    margin-top: 20px;
+}
+
+#edit-user>input {
+}
+
+#edit-user>label {
+    font-size: 50px;
+    margin-left: 20px;
+}

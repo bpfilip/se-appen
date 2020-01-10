@@ -77,6 +77,17 @@
             <div id="show-users" class="admin-list" style="display: none;">
                 <span class="loading">Henter...</span>
             </div>
+            <div id="edit-user" class="admin-list" style="display: none;">
+                <label for="username">Brugernavn:</label>
+                <input name="username" type="text">
+                <label for="name">Navn:</label>
+                <input name="name" type="text">
+                <label for="mail">Email:</label>
+                <input name="email" type="text">
+                <label for="room">Værelse:</label>
+                <input name="room" type="number">
+                <input type="submit" value="Opdater profil" onclick="changeUser()">
+            </div>
             <div id="rooms" class="admin-list" style="display: none;">
                 <span id="loading-rooms" class="loading">Henter...</span>
                 <input type="submit" value="Tilføj rum" onclick="newRoom()"

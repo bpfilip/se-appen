@@ -31,6 +31,56 @@ function initialize() {
 	}
 }
 
+// ####################################################
+// #					change-user					  #
+// ####################################################
+
+let currentEditUsername;
+
+async function changeUserMenu(username) {
+	document.getElementById("show-users").style.display = "none";
+	document.getElementById("edit-user").style.display = "block";
+
+	let res = await fetch("/admin/user/get", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({ username })
+	});
+
+	let user = await res.json();
+
+	document.querySelector("#edit-user > input[type=text]:nth-child(2)").value = user.username;
+	document.querySelector("#edit-user > input[type=text]:nth-child(4)").value = user.name;
+	document.querySelector("#edit-user > input[type=text]:nth-child(6)").value = user.email;
+	document.querySelector("#edit-user > input[type=number]:nth-child(8)").value = user.room;
+
+	document.querySelector("#edit-user > input[type=submit]:nth-child(9)").setAttribute("originalUsername", username);
+}
+
+async function changeUser() {
+	let username = document.querySelector("#edit-user > input[type=text]:nth-child(2)").value;
+	let name = document.querySelector("#edit-user > input[type=text]:nth-child(4)").value;
+	let email = document.querySelector("#edit-user > input[type=text]:nth-child(6)").value;
+	let room = document.querySelector("#edit-user > input[type=number]:nth-child(8)").value;
+	let originalUsername = document.querySelector("#edit-user > input[type=submit]:nth-child(9)").getAttribute("originalUsername");
+
+	let res = await fetch("/admin/user/change", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({ oldUsername: originalUsername, username, name, email, room })
+	});
+
+	let user = await res.json();
+}
+
+// ####################################################
+// #					main screen					  #
+// ####################################################
+
 async function getUnverifiedCount() {
 	let res = await fetch("/admin/users/unverified/count");
 	let data = await res.json();
@@ -160,8 +210,9 @@ function insertUsers(users) {
 function generateUser(user) {
 	const div = document.createElement('div');
 	const content = `
-	<div class="user">
+	<div class="user" onclick="changeUserMenu('${user.username}'); currentEditUsername = ${user.username};console.log(currentEditUsername)">
 		<span class="name">${user.name}</span>
+		<img class="edit-icon" src="/private/src/images/edit.svg">
 		<br>
 		<span class="mail">${user.email}</span>
 		<br>
